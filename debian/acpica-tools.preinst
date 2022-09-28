@@ -1,0 +1,11 @@
+#!/bin/sh
+set -e
+
+# Upgrade code from before bookworm. Could be removed in bookworm+1.
+BINDIR=/usr/bin
+update-alternatives --remove acpixtract $BINDIR/acpixtract-acpica
+update-alternatives --remove acpidump $BINDIR/acpidump-acpica
+
+#DEBHELPER#
+
+exit 0

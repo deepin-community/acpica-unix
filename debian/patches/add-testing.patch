@@ -1,0 +1,16 @@
+Index: acpica-unix-20191213/Makefile
+===================================================================
+--- acpica-unix-20191213.orig/Makefile
++++ acpica-unix-20191213/Makefile
+@@ -20,3 +20,11 @@ else
+ 	include generate/unix/Makefile.config
+ 	include generate/unix/Makefile.common
+ endif
++
++check:
++	# ASL tests
++	$(CURDIR)/tests/aslts.sh $(CURDIR)/tests/aslts $(CURDIR)/generate/unix
++
++	# misc tests
++	$(CURDIR)/debian/run-misc-tests.sh $(CURDIR) 20200925
++
