@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2020, Intel Corp.
+ * Copyright (C) 2000 - 2023, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,7 @@
  * NO WARRANTY
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
  * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
  * HOLDERS OR CONTRIBUTORS BE LIABLE FOR SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
@@ -64,12 +64,21 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 
-/* Eliminate warnings for POSIX clib function names (open, write, etc.) */
+ /* Eliminate warnings for POSIX clib function names (open, write, etc.) */
 
 #ifndef _CRT_NONSTDC_NO_DEPRECATE
 #define _CRT_NONSTDC_NO_DEPRECATE
 #endif
 
+ /*  Disable these warnings under Windows and MSVC since C4201: nameless 
+  *  structs/unions are needed as ACPI event-handling under Linux/GCC breaks
+  *  with named and nested structs/unions while C4068: unknown pragma
+  *  complains of GCC pragmas in use to disable dangling ptr warnings
+  */
+
+#pragma warning( disable: 4201)
+#pragma warning( disable: 4068)
+#pragma warning( push)
 
 #define ACPI_MACHINE_WIDTH      32
 #define ACPI_USE_NATIVE_DIVIDE

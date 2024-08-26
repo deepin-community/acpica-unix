@@ -1,5 +1,5 @@
     /*
-     * Some or all of this work - Copyright (c) 2006 - 2020, Intel Corp.
+     * Some or all of this work - Copyright (c) 2006 - 2021, Intel Corp.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without modification,
@@ -662,7 +662,7 @@
         /* Wait for all Worker threads */
 
         M103 (Arg0)
-        /* Check up the values of counters of all Mutexs */
+        /* Check up the values of counters of all Mutexes */
 
         LPN0 = Arg3
         LPC0 = Arg2

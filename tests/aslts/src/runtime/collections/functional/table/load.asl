@@ -1,5 +1,5 @@
     /*
-     * Some or all of this work - Copyright (c) 2006 - 2020, Intel Corp.
+     * Some or all of this work - Copyright (c) 2006 - 2021, Intel Corp.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without modification,
@@ -57,7 +57,7 @@
      *
      * - an Object of any type can be used as the DDBHandle argument,
      *
-     * - the DDBHandle argument of the Load operator becames an Object
+     * - the DDBHandle argument of the Load operator becomes an Object
      *   of the DDBHandle type,
      *
      * - the DDBHandle Object returned from the Load operator can be used

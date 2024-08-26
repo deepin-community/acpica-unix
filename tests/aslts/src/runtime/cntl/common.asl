@@ -1,5 +1,5 @@
     /*
-     * Some or all of this work - Copyright (c) 2006 - 2020, Intel Corp.
+     * Some or all of this work - Copyright (c) 2006 - 2021, Intel Corp.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without modification,
@@ -457,7 +457,7 @@
             Concatenate (Arg0, " test started", Debug)
         }
 
-        NRMT = Arg0
+        CopyObject(Arg0, NRMT)
     }
 
     /*
@@ -1459,7 +1459,7 @@
          * The internal data about the exceptions initiated by some
          * bdemo tests on a global level should be reset by them to
          * this point as they didn't take place. Otherwise, an error
-         * will be below registrated.
+         * will be below registered.
          */
         If (CH02 ())
         {

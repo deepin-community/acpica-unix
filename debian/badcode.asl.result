@@ -1,3 +1,12 @@
+badcode.asl     37:     Name (PATH, Buffer() {"\_SB_.PCI2._CRS"})
+Warning  3046 -                                ^ Invalid or unknown escape sequence
+
+badcode.asl     41:     Name (ESC1, "abcdefg\x00hijklmn")
+Warning  3055 -                                ^ Invalid Hex/Octal Escape - Non-ASCII or NULL
+
+badcode.asl    268:         QWordSpace (0xB0, ResourceConsumer, PosDecode, MinFixed, MaxFixed, 0xA5,
+Error    6139 -     Constant out of range ^  (0xB0, allowable: 0xC0-0xFF)
+
 badcode.asl     25:     Mutex (MTX1, 32)
 Error    6125 -                      ^ SyncLevel must be in the range 0-15
 
@@ -146,7 +155,7 @@ badcode.asl    197:         Return ("Unexpected Return Value")
 Warning  3104 -  Reserved method should not return a value ^  (_Q22)
 
 badcode.asl    203:     Device (EC)
-Warning  3141 -                 ^ Missing dependency (Device object requires a _HID or _ADR in same scope)
+Error    6141 -                 ^ Missing dependency (Device object requires a _HID or _ADR)
 
 badcode.asl    205:         Method (_REG, 2)
 Warning  3079 -                       ^ _REG has no corresponding Operation Region
@@ -256,11 +265,11 @@ Warning  3144 -                            ^ Method Local is set but never used 
 
 Intel ACPI Component Architecture
 ASL+ Optimizing Compiler/Disassembler version VVVVVVVV
-Copyright (c) 2000 - 2020 Intel Corporation
+Copyright (c) 2000 - 2023 Intel Corporation
 
 Ignoring all errors, forcing AML file generation
 
-ASL Input:     badcode.asl -   11588 bytes     81 keywords    408 source lines
+ASL Input:     badcode.asl -   11588 bytes     81 keywords      0 source lines
 AML Output:    badcode.aml -    1195 bytes     20 opcodes      61 named objects
 
-Compilation successful. 45 Errors, 29 Warnings, 11 Remarks, 16 Optimizations, 1 Constants Folded
+Compilation successful. 46 Errors, 28 Warnings, 11 Remarks, 16 Optimizations, 1 Constants Folded

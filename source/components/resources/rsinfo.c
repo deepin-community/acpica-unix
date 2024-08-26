@@ -5,7 +5,7 @@
  ******************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2020, Intel Corp.
+ * Copyright (C) 2000 - 2023, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,7 @@
  * NO WARRANTY
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
  * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
  * HOLDERS OR CONTRIBUTORS BE LIABLE FOR SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
@@ -89,6 +89,7 @@ ACPI_RSCONVERT_INFO         *AcpiGbl_SetResourceDispatch[] =
     AcpiRsConvertPinGroup,          /* 0x16, ACPI_RESOURCE_TYPE_PIN_GROUP */
     AcpiRsConvertPinGroupFunction,  /* 0x17, ACPI_RESOURCE_TYPE_PIN_GROUP_FUNCTION */
     AcpiRsConvertPinGroupConfig,    /* 0x18, ACPI_RESOURCE_TYPE_PIN_GROUP_CONFIG */
+    AcpiRsConvertClockInput,        /* 0x19, ACPI_RESOURCE_TYPE_CLOCK_INPUT */
 };
 
 /* Dispatch tables for AML-to-resource (Get Resource) conversion functions */
@@ -135,9 +136,10 @@ ACPI_RSCONVERT_INFO         *AcpiGbl_GetResourceDispatch[] =
     AcpiRsConvertPinGroup,          /* 0x10, ACPI_RESOURCE_NAME_PIN_GROUP */
     AcpiRsConvertPinGroupFunction,  /* 0x11, ACPI_RESOURCE_NAME_PIN_GROUP_FUNCTION */
     AcpiRsConvertPinGroupConfig,    /* 0x12, ACPI_RESOURCE_NAME_PIN_GROUP_CONFIG */
+    AcpiRsConvertClockInput,        /* 0x13, ACPI_RESOURCE_NAME_CLOCK_INPUT */
 };
 
-/* Subtype table for SerialBus -- I2C, SPI, and UART */
+/* Subtype table for SerialBus -- I2C, SPI, UART, and CSI2 */
 
 ACPI_RSCONVERT_INFO         *AcpiGbl_ConvertResourceSerialBusDispatch[] =
 {
@@ -145,6 +147,7 @@ ACPI_RSCONVERT_INFO         *AcpiGbl_ConvertResourceSerialBusDispatch[] =
     AcpiRsConvertI2cSerialBus,
     AcpiRsConvertSpiSerialBus,
     AcpiRsConvertUartSerialBus,
+    AcpiRsConvertCsi2SerialBus
 };
 
 
@@ -179,6 +182,7 @@ ACPI_RSDUMP_INFO            *AcpiGbl_DumpResourceDispatch[] =
     AcpiRsDumpPinGroup,             /* ACPI_RESOURCE_TYPE_PIN_GROUP */
     AcpiRsDumpPinGroupFunction,     /* ACPI_RESOURCE_TYPE_PIN_GROUP_FUNCTION */
     AcpiRsDumpPinGroupConfig,       /* ACPI_RESOURCE_TYPE_PIN_GROUP_CONFIG */
+    AcpiRsDumpClockInput,           /* ACPI_RESOURCE_TYPE_CLOCK_INPUT */
 };
 
 ACPI_RSDUMP_INFO            *AcpiGbl_DumpSerialBusDispatch[] =
@@ -187,6 +191,7 @@ ACPI_RSDUMP_INFO            *AcpiGbl_DumpSerialBusDispatch[] =
     AcpiRsDumpI2cSerialBus,         /* AML_RESOURCE_I2C_BUS_TYPE */
     AcpiRsDumpSpiSerialBus,         /* AML_RESOURCE_SPI_BUS_TYPE */
     AcpiRsDumpUartSerialBus,        /* AML_RESOURCE_UART_BUS_TYPE */
+    AcpiRsDumpCsi2SerialBus,        /* AML_RESOURCE_CSI2_BUS_TYPE */
 };
 #endif
 
@@ -223,6 +228,7 @@ const UINT8                 AcpiGbl_AmlResourceSizes[] =
     sizeof (AML_RESOURCE_PIN_GROUP),        /* ACPI_RESOURCE_TYPE_PIN_GROUP */
     sizeof (AML_RESOURCE_PIN_GROUP_FUNCTION), /* ACPI_RESOURCE_TYPE_PIN_GROUP_FUNCTION */
     sizeof (AML_RESOURCE_PIN_GROUP_CONFIG), /* ACPI_RESOURCE_TYPE_PIN_GROUP_CONFIG */
+    sizeof (AML_RESOURCE_CLOCK_INPUT),      /* ACPI_RESOURCE_TYPE_CLOCK_INPUT */
 };
 
 
@@ -268,6 +274,7 @@ const UINT8                 AcpiGbl_ResourceStructSizes[] =
     ACPI_RS_SIZE (ACPI_RESOURCE_PIN_GROUP),
     ACPI_RS_SIZE (ACPI_RESOURCE_PIN_GROUP_FUNCTION),
     ACPI_RS_SIZE (ACPI_RESOURCE_PIN_GROUP_CONFIG),
+    ACPI_RS_SIZE (ACPI_RESOURCE_CLOCK_INPUT),
 };
 
 const UINT8                 AcpiGbl_AmlResourceSerialBusSizes[] =
@@ -276,6 +283,7 @@ const UINT8                 AcpiGbl_AmlResourceSerialBusSizes[] =
     sizeof (AML_RESOURCE_I2C_SERIALBUS),
     sizeof (AML_RESOURCE_SPI_SERIALBUS),
     sizeof (AML_RESOURCE_UART_SERIALBUS),
+    sizeof (AML_RESOURCE_CSI2_SERIALBUS),
 };
 
 const UINT8                 AcpiGbl_ResourceStructSerialBusSizes[] =
@@ -284,4 +292,5 @@ const UINT8                 AcpiGbl_ResourceStructSerialBusSizes[] =
     ACPI_RS_SIZE (ACPI_RESOURCE_I2C_SERIALBUS),
     ACPI_RS_SIZE (ACPI_RESOURCE_SPI_SERIALBUS),
     ACPI_RS_SIZE (ACPI_RESOURCE_UART_SERIALBUS),
+    ACPI_RS_SIZE (ACPI_RESOURCE_CSI2_SERIALBUS),
 };

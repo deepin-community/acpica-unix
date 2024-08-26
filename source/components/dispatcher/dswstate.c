@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2020, Intel Corp.
+ * Copyright (C) 2000 - 2023, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,7 @@
  * NO WARRANTY
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
  * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
  * HOLDERS OR CONTRIBUTORS BE LIABLE FOR SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
@@ -202,8 +202,8 @@ AcpiDsResultPush (
     if (!Object)
     {
         ACPI_ERROR ((AE_INFO,
-            "Null Object! Obj=%p State=%p Num=%u",
-            Object, WalkState, WalkState->ResultCount));
+            "Null Object! State=%p Num=%u",
+            WalkState, WalkState->ResultCount));
         return (AE_BAD_PARAMETER);
     }
 
@@ -677,9 +677,14 @@ AcpiDsInitAmlWalk (
 
 
     WalkState->ParserState.Aml =
-    WalkState->ParserState.AmlStart = AmlStart;
+    WalkState->ParserState.AmlStart =
     WalkState->ParserState.AmlEnd =
-    WalkState->ParserState.PkgEnd = AmlStart + AmlLength;
+    WalkState->ParserState.PkgEnd = AmlStart;
+    /* Avoid undefined behavior: applying zero offset to null pointer */
+    if (AmlLength != 0) {
+      WalkState->ParserState.AmlEnd += AmlLength;
+      WalkState->ParserState.PkgEnd += AmlLength;
+    }
 
     /* The NextOp of the NextWalk will be the beginning of the method */
 

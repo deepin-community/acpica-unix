@@ -1,5 +1,5 @@
     /*
-     * Some or all of this work - Copyright (c) 2006 - 2020, Intel Corp.
+     * Some or all of this work - Copyright (c) 2006 - 2021, Intel Corp.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without modification,
@@ -29,7 +29,7 @@
      * This test should be investigated and probably fixed because
      * it most likely not conforms with the changed functionality of
      * the Store operator - storing of non-computational data and
-     * BufferFields and Fields was once diasbled.
+     * BufferFields and Fields was once disabled.
      *
      * Such are exc_operand1, exc_result, oconversion and rconversion tests.
      */

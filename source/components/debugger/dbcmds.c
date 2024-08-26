@@ -5,7 +5,7 @@
  ******************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2020, Intel Corp.
+ * Copyright (C) 2000 - 2023, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,7 @@
  * NO WARRANTY
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
  * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
  * HOLDERS OR CONTRIBUTORS BE LIABLE FOR SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
@@ -48,7 +48,7 @@
 #include "acnamesp.h"
 #include "acresrc.h"
 #include "actables.h"
-
+#include "limits.h"
 
 #define _COMPONENT          ACPI_CA_DEBUGGER
         ACPI_MODULE_NAME    ("dbcmds")
@@ -1182,6 +1182,64 @@ AcpiDbDisplayResources (
     AcpiDbSetOutputDestination (ACPI_DB_CONSOLE_OUTPUT);
 }
 
+
+/*******************************************************************************
+ *
+ * FUNCTION:    AcpiDbGenerateGed
+ *
+ * PARAMETERS:  GedArg              - Raw GED number, ascii string
+ *
+ * RETURN:      None
+ *
+ * DESCRIPTION: Simulate firing of a GED
+ *
+ ******************************************************************************/
+
+void
+AcpiDbGenerateInterrupt (
+    char *GsivArg)
+{
+    UINT32      GsivNumber;
+    ACPI_GED_HANDLER_INFO *GedInfo = AcpiGbl_GedHandlerList;
+
+	if (!GedInfo) {
+		AcpiOsPrintf ("No GED handling present\n");
+	}
+
+    GsivNumber = strtoul (GsivArg, NULL, 0);
+
+	while (GedInfo) {
+
+		if (GedInfo->IntId == GsivNumber) {
+			ACPI_OBJECT_LIST ArgList;
+			ACPI_OBJECT Arg0;
+			ACPI_HANDLE EvtHandle = GedInfo->EvtMethod;
+			ACPI_STATUS Status;
+
+			AcpiOsPrintf ("Evaluate GED _EVT (GSIV=%d)\n", GsivNumber);
+
+			if (!EvtHandle) {
+				AcpiOsPrintf ("Undefined _EVT method\n");
+				return;
+			}
+
+			Arg0.Integer.Type = ACPI_TYPE_INTEGER;
+			Arg0.Integer.Value = GsivNumber;
+
+			ArgList.Count = 1;
+			ArgList.Pointer = &Arg0;
+
+			Status = AcpiEvaluateObject (EvtHandle, NULL, &ArgList, NULL);
+			if (ACPI_FAILURE (Status))
+			{
+				AcpiOsPrintf ("Could not evaluate _EVT\n");
+				return;
+			}
+
+		}
+		GedInfo = GedInfo->Next;
+	}
+}
 
 #if (!ACPI_REDUCED_HARDWARE)
 /*******************************************************************************

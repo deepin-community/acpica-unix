@@ -1,5 +1,5 @@
     /*
-     * Some or all of this work - Copyright (c) 2006 - 2020, Intel Corp.
+     * Some or all of this work - Copyright (c) 2006 - 2021, Intel Corp.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without modification,
@@ -1066,7 +1066,7 @@
      * 4. "0000000000000000000000001234"
      * (zeros before significant characters in image without '0x' are skipped).
      *
-     * Exampples: mf9b + 000000000
+     * Examples: mf9b + 000000000
      *
      * All the above examples but
      *

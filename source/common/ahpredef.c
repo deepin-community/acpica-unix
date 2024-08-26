@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2020, Intel Corp.
+ * Copyright (C) 2000 - 2023, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,7 @@
  * NO WARRANTY
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
  * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
  * HOLDERS OR CONTRIBUTORS BE LIABLE FOR SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
@@ -92,12 +92,16 @@ const AH_PREDEFINED_NAME    AslPredefinedInfo[] =
     AH_PREDEF ("_BMC",    "Battery Maintenance Control", "Sets battery maintenance and control features"),
     AH_PREDEF ("_BMD",    "Battery Maintenance Data", "Returns battery maintenance, control, and state data"),
     AH_PREDEF ("_BMS",    "Battery Measurement Sampling Time", "Sets the battery measurement sampling time"),
+    AH_PREDEF ("_BPC",    "Battery Power Characteristics", "Returns static values used to configure power threshold support in the platform firmware"),
+    AH_PREDEF ("_BPS",    "Battery Power State", "Returns the power delivery capabilities of the battery at the present time"),
+    AH_PREDEF ("_BPT",    "Battery Power Threshold", "Set a relative battery peak power capability change threshold"),
     AH_PREDEF ("_BQC",    "Brightness Query Current", "Returns the current display brightness level"),
     AH_PREDEF ("_BST",    "Battery Status", "Returns a Control Method Battery status block"),
     AH_PREDEF ("_BTH",    "Battery Throttle Limit", "Thermal limit for charging and discharging"),
     AH_PREDEF ("_BTM",    "Battery Time", "Returns the battery runtime"),
     AH_PREDEF ("_BTP",    "Battery Trip Point", "Sets a Control Method Battery trip point"),
     AH_PREDEF ("_CBA",    "Configuration Base Address", "Sets the base address for a PCI Express host bridge"),
+    AH_PREDEF ("_CBR",    "CXL Host Bridge Register Info", "Get the memory location of CXL Host Bridge Registers"),
     AH_PREDEF ("_CCA",    "Cache Coherency Attribute", "Returns a device's support level for cache coherency"),
     AH_PREDEF ("_CDM",    "Clock Domain", "Returns a logical processor's clock domain identifier"),
     AH_PREDEF ("_CID",    "Compatible ID", "Returns a device's Plug and Play Compatible ID list"),
@@ -122,6 +126,7 @@ const AH_PREDEFINED_NAME    AslPredefinedInfo[] =
     AH_PREDEF ("_DMA",    "Direct Memory Access", "Returns device current resources for DMA transactions, and resource field"),
     AH_PREDEF ("_DOD",    "Display Output Devices", "Enumerate all devices attached to the display adapter"),
     AH_PREDEF ("_DOS",    "Disable Output Switching", "Sets the display output switching mode"),
+    AH_PREDEF ("_DSC",    "Deepest State for Configuration", "Returns the deepest D-state of the device to the OSPM"),
     AH_PREDEF ("_DPL",    "Device Selection Polarity", "Polarity of Device Selection signal, Resource Descriptor field"),
     AH_PREDEF ("_DRS",    "Drive Strength", "Drive Strength setting for GPIO connection, Resource Descriptor field"),
     AH_PREDEF ("_DSD",    "Device-Specific Data", "Returns a list of device property information"),

@@ -5,7 +5,7 @@
  ******************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2020, Intel Corp.
+ * Copyright (C) 2000 - 2023, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,7 @@
  * NO WARRANTY
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
  * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
  * HOLDERS OR CONTRIBUTORS BE LIABLE FOR SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
@@ -50,6 +50,13 @@
         ACPI_MODULE_NAME    ("dbresrcl2")
 
 /* Local prototypes */
+
+static void
+AcpiDmCsi2SerialBusDescriptor (
+    ACPI_OP_WALK_INFO       *Info,
+    AML_RESOURCE            *Resource,
+    UINT32                  Length,
+    UINT32                  Level);
 
 static void
 AcpiDmI2cSerialBusDescriptor (
@@ -92,7 +99,8 @@ static ACPI_RESOURCE_HANDLER        SerialBusResourceDispatch [] =
     NULL,
     AcpiDmI2cSerialBusDescriptor,
     AcpiDmSpiSerialBusDescriptor,
-    AcpiDmUartSerialBusDescriptor
+    AcpiDmUartSerialBusDescriptor,
+    AcpiDmCsi2SerialBusDescriptor
 };
 
 
@@ -407,6 +415,46 @@ AcpiDmGpioDescriptor (
     }
 }
 
+void
+AcpiDmClockInputDescriptor (
+    ACPI_OP_WALK_INFO       *Info,
+    AML_RESOURCE            *Resource,
+    UINT32                  Length,
+    UINT32                  Level)
+{
+    char                    *DeviceName = NULL;
+    UINT8                   *ResourceIndex = NULL;
+    AcpiDmIndent (Level);
+
+    AcpiOsPrintf ("ClockInput (");
+
+    AcpiOsPrintf ("0x%8.8X, ", Resource->ClockInput.FrequencyNumerator);
+
+    AcpiOsPrintf ("0x%4.4X, ", Resource->ClockInput.FrequencyDivisor);
+
+    AcpiOsPrintf ("%s, ",
+        AcpiGbl_ClockInputScale [ACPI_EXTRACT_2BIT_FLAG (Resource->ClockInput.Flags, 1)]);
+
+    AcpiOsPrintf ("%s, ",
+        AcpiGbl_ClockInputMode [ACPI_GET_1BIT_FLAG (Resource->ClockInput.Flags)]);
+
+    if (Length > sizeof(Resource->ClockInput))
+    {
+        DeviceName = ACPI_ADD_PTR (char,
+            Resource, sizeof(Resource->ClockInput)+1),
+        AcpiUtPrintString (DeviceName, ACPI_UINT16_MAX);
+
+        AcpiOsPrintf (", ");
+        ResourceIndex = ACPI_ADD_PTR (UINT8,
+            Resource, sizeof(Resource->ClockInput)),
+
+        AcpiOsPrintf ("0x%2.2X", *ResourceIndex);
+    }
+
+    AcpiOsPrintf (")\n");
+
+}
+
 /*******************************************************************************
  *
  * FUNCTION:    AcpiDmPinFunctionDescriptor
@@ -566,6 +614,15 @@ AcpiDmDumpSerialBusVendorData (
             sizeof (AML_RESOURCE_UART_SERIALBUS));
         break;
 
+    case AML_RESOURCE_CSI2_SERIALBUSTYPE:
+
+        VendorLength = Resource->CommonSerialBus.TypeDataLength -
+            AML_RESOURCE_CSI2_MIN_DATA_LEN;
+
+        VendorData = ACPI_ADD_PTR (UINT8, Resource,
+            sizeof (AML_RESOURCE_CSI2_SERIALBUS));
+        break;
+
     default:
 
         return;
@@ -574,6 +631,75 @@ AcpiDmDumpSerialBusVendorData (
     /* Dump the vendor bytes as a RawDataBuffer object */
 
     AcpiDmDumpRawDataBuffer (VendorData, VendorLength, Level);
+}
+
+
+/*******************************************************************************
+ *
+ * FUNCTION:    AcpiDmCsi2SerialBusDescriptor
+ *
+ * PARAMETERS:  Info                - Extra resource info
+ *              Resource            - Pointer to the resource descriptor
+ *              Length              - Length of the descriptor in bytes
+ *              Level               - Current source code indentation level
+ *
+ * RETURN:      None
+ *
+ * DESCRIPTION: Decode a CSI2 serial bus descriptor
+ *
+ ******************************************************************************/
+
+static void
+AcpiDmCsi2SerialBusDescriptor (
+    ACPI_OP_WALK_INFO       *Info,
+    AML_RESOURCE            *Resource,
+    UINT32                  Length,
+    UINT32                  Level)
+{
+    UINT32                  ResourceSourceOffset;
+    char                    *DeviceName;
+
+
+    /* SlaveMode, PhyType, LocalPortInstance */
+
+    AcpiDmIndent (Level);
+    AcpiOsPrintf ("Csi2Bus (%s,",
+        AcpiGbl_SmDecode [ACPI_GET_1BIT_FLAG (Resource->Csi2SerialBus.Flags)]);
+
+    AcpiOsPrintf (" 0x%2.2X, 0x%2.2X,\n",
+        Resource->Csi2SerialBus.TypeSpecificFlags & 0x03,
+        Resource->Csi2SerialBus.TypeSpecificFlags & 0xFC);
+
+    /* ResourceSource is a required field */
+
+    ResourceSourceOffset = sizeof (AML_RESOURCE_COMMON_SERIALBUS) +
+        Resource->CommonSerialBus.TypeDataLength;
+
+    AcpiDmIndent (Level + 1);
+    DeviceName = ACPI_ADD_PTR (char, Resource, ResourceSourceOffset);
+    AcpiUtPrintString (DeviceName, ACPI_UINT16_MAX);
+
+    /* ResourceSourceIndex, ResourceUsage */
+
+    AcpiOsPrintf (",\n");
+    AcpiDmIndent (Level + 1);
+    AcpiOsPrintf ("0x%2.2X, ", Resource->Csi2SerialBus.ResSourceIndex);
+
+    AcpiOsPrintf ("%s, ",
+        AcpiGbl_ConsumeDecode [ACPI_EXTRACT_1BIT_FLAG (Resource->Csi2SerialBus.Flags, 1)]);
+
+    /* Insert a descriptor name */
+
+    AcpiDmDescriptorName ();
+
+    /* Dump the vendor data */
+
+    AcpiOsPrintf (",\n");
+    AcpiDmIndent (Level + 1);
+    AcpiDmDumpSerialBusVendorData (Resource, Level);
+    AcpiOsPrintf (")\n");
+
+    MpSaveSerialInfo (Info->MappingOp, Resource, DeviceName);
 }
 
 
@@ -831,7 +957,7 @@ AcpiDmUartSerialBusDescriptor (
  *
  * RETURN:      None
  *
- * DESCRIPTION: Decode a I2C/SPI/UART serial bus descriptor
+ * DESCRIPTION: Decode a I2C/SPI/UART/CSI2 serial bus descriptor
  *
  ******************************************************************************/
 

@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2020, Intel Corp.
+ * Copyright (C) 2000 - 2023, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,7 @@
  * NO WARRANTY
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
  * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
  * HOLDERS OR CONTRIBUTORS BE LIABLE FOR SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
@@ -238,6 +238,7 @@ const ASL_MAPPING_ENTRY     AslKeywordMapping [] =
 /* FUNCTION */                  OP_TABLE_ENTRY (AML_METHOD_OP,              0,                              OP_AML_PACKAGE,     0),
 /* GPIOINT */                   OP_TABLE_ENTRY (AML_DEFAULT_ARG_OP,         0,                              0,                  0),
 /* GPIOIO */                    OP_TABLE_ENTRY (AML_DEFAULT_ARG_OP,         0,                              0,                  0),
+/* CSI2SERIALBUS */             OP_TABLE_ENTRY (AML_DEFAULT_ARG_OP,         0,                              0,                  0),
 /* I2CSERIALBUS */              OP_TABLE_ENTRY (AML_DEFAULT_ARG_OP,         0,                              0,                  0),
 /* I2CSERIALBUSV2 */            OP_TABLE_ENTRY (AML_DEFAULT_ARG_OP,         0,                              0,                  0),
 /* IF */                        OP_TABLE_ENTRY (AML_IF_OP,                  0,                              OP_AML_PACKAGE,     0),
@@ -270,8 +271,8 @@ const ASL_MAPPING_ENTRY     AslKeywordMapping [] =
 /* LLESSEQUAL */                OP_TABLE_ENTRY (AML_LOGICAL_LESS_EQUAL_OP,  0,                              0,                  ACPI_BTYPE_INTEGER),
 /* LNOT */                      OP_TABLE_ENTRY (AML_LOGICAL_NOT_OP,         0,                              0,                  ACPI_BTYPE_INTEGER),
 /* LNOTEQUAL */                 OP_TABLE_ENTRY (AML_LOGICAL_NOT_EQUAL_OP,   0,                              0,                  ACPI_BTYPE_INTEGER),
-/* LOAD */                      OP_TABLE_ENTRY (AML_LOAD_OP,                0,                              0,                  0),
-/* LOADTABLE */                 OP_TABLE_ENTRY (AML_LOAD_TABLE_OP,          0,                              0,                  ACPI_BTYPE_DDB_HANDLE),
+/* LOAD */                      OP_TABLE_ENTRY (AML_LOAD_OP,                0,                              0,                  ACPI_BTYPE_INTEGER),
+/* LOADTABLE */                 OP_TABLE_ENTRY (AML_LOAD_TABLE_OP,          0,                              0,                  ACPI_BTYPE_INTEGER),
 /* LOCAL0 */                    OP_TABLE_ENTRY (AML_LOCAL0,                 0,                              0,                  ACPI_BTYPE_OBJECTS_AND_REFS),
 /* LOCAL1 */                    OP_TABLE_ENTRY (AML_LOCAL1,                 0,                              0,                  ACPI_BTYPE_OBJECTS_AND_REFS),
 /* LOCAL2 */                    OP_TABLE_ENTRY (AML_LOCAL2,                 0,                              0,                  ACPI_BTYPE_OBJECTS_AND_REFS),
@@ -353,6 +354,12 @@ const ASL_MAPPING_ENTRY     AslKeywordMapping [] =
 /* PIN_PULLDEFAULT */           OP_TABLE_ENTRY (AML_BYTE_OP,                0,                              0,                  0),
 /* PIN_PULLDOWN */              OP_TABLE_ENTRY (AML_BYTE_OP,                2,                              0,                  0),
 /* PIN_PULLUP */                OP_TABLE_ENTRY (AML_BYTE_OP,                1,                              0,                  0),
+/* CLOCKINPUT */                OP_TABLE_ENTRY (AML_DEFAULT_ARG_OP,         0,                              0,                  0),
+/* CLOCK_HZ */                  OP_TABLE_ENTRY (AML_BYTE_OP,                0,                              0,                  0),
+/* CLOCK_KHZ */                 OP_TABLE_ENTRY (AML_BYTE_OP,                1,                              0,                  0),
+/* CLOCK_MHZ */                 OP_TABLE_ENTRY (AML_BYTE_OP,                2,                              0,                  0),
+/* CLOCK_FIXED */               OP_TABLE_ENTRY (AML_BYTE_OP,                0,                              0,                  0),
+/* CLOCK_VARIABLE */            OP_TABLE_ENTRY (AML_BYTE_OP,                1,                              0,                  0),
 /* POWERRESOURCE */             OP_TABLE_ENTRY (AML_POWER_RESOURCE_OP,      0,                              OP_AML_PACKAGE,     0),
 /* PROCESSOR */                 OP_TABLE_ENTRY (AML_PROCESSOR_OP,           0,                              OP_AML_PACKAGE,     0),
 /* QWORDCONST */                OP_TABLE_ENTRY (AML_RAW_DATA_QWORD,         0,                              0,                  ACPI_BTYPE_INTEGER),
@@ -430,7 +437,7 @@ const ASL_MAPPING_ENTRY     AslKeywordMapping [] =
 /* TYPE_TRANSLATION */          OP_TABLE_ENTRY (AML_BYTE_OP,                1,                              0,                  0),
 /* UART_SERIALBUS */            OP_TABLE_ENTRY (AML_DEFAULT_ARG_OP,         0,                              0,                  0),
 /* UART_SERIALBUSV2 */          OP_TABLE_ENTRY (AML_DEFAULT_ARG_OP,         0,                              0,                  0),
-/* UNICODE */                   OP_TABLE_ENTRY (AML_BUFFER_OP,              0,                              OP_AML_PACKAGE,     0),
+/* UNICODE */                   OP_TABLE_ENTRY (AML_BUFFER_OP,              0,                              OP_AML_PACKAGE,     ACPI_BTYPE_BUFFER),
 /* UNLOAD */                    OP_TABLE_ENTRY (AML_UNLOAD_OP,              0,                              0,                  0),
 /* UPDATERULE_ONES */           OP_TABLE_ENTRY (AML_BYTE_OP,                AML_FIELD_UPDATE_WRITE_AS_ONES, 0,                  0),
 /* UPDATERULE_PRESERVE */       OP_TABLE_ENTRY (AML_BYTE_OP,                AML_FIELD_UPDATE_PRESERVE,      0,                  0),

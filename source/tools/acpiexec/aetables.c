@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2020, Intel Corp.
+ * Copyright (C) 2000 - 2023, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,7 @@
  * NO WARRANTY
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
  * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
  * HOLDERS OR CONTRIBUTORS BE LIABLE FOR SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
@@ -159,7 +159,7 @@ AeInitializeTableHeader (
     /* Set the checksum, must set to zero first */
 
     Header->Checksum = 0;
-    Header->Checksum = (UINT8) -AcpiTbChecksum (
+    Header->Checksum = (UINT8) -AcpiUtChecksum (
         (void *) Header, Header->Length);
 }
 
@@ -312,7 +312,7 @@ AeBuildLocalTables (
     AeInitializeTableHeader ((void *) LocalXSDT, ACPI_SIG_XSDT, XsdtSize);
 
     LocalRSDP.Checksum = 0;
-    LocalRSDP.Checksum = (UINT8) -AcpiTbChecksum (
+    LocalRSDP.Checksum = (UINT8) -AcpiUtChecksum (
         (void *) &LocalRSDP, ACPI_RSDP_CHECKSUM_LENGTH);
 
     if (!DsdtAddress)
@@ -363,7 +363,7 @@ AeBuildLocalTables (
         /* Complete the external FADT with the checksum */
 
         ExternalFadt->Header.Checksum = 0;
-        ExternalFadt->Header.Checksum = (UINT8) -AcpiTbChecksum (
+        ExternalFadt->Header.Checksum = (UINT8) -AcpiUtChecksum (
             (void *) ExternalFadt, ExternalFadt->Header.Length);
     }
     else if (AcpiGbl_UseHwReducedFadt)
@@ -443,7 +443,7 @@ AeBuildLocalTables (
         LocalTEST.Length = sizeof (ACPI_TABLE_HEADER);
 
         LocalTEST.Checksum = 0;
-        LocalTEST.Checksum = (UINT8) -AcpiTbChecksum (
+        LocalTEST.Checksum = (UINT8) -AcpiUtChecksum (
             (void *) &LocalTEST, LocalTEST.Length);
 
         /*
@@ -457,7 +457,7 @@ AeBuildLocalTables (
         LocalBADTABLE.Length = sizeof (ACPI_TABLE_HEADER);
 
         LocalBADTABLE.Checksum = 0;
-        LocalBADTABLE.Checksum = (UINT8) -AcpiTbChecksum (
+        LocalBADTABLE.Checksum = (UINT8) -AcpiUtChecksum (
             (void *) &LocalBADTABLE, LocalBADTABLE.Length);
     }
 

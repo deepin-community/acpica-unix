@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2020, Intel Corp.
+ * Copyright (C) 2000 - 2023, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,7 @@
  * NO WARRANTY
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
  * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
  * HOLDERS OR CONTRIBUTORS BE LIABLE FOR SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
@@ -82,7 +82,7 @@ extern ACPI_PARSE_OBJECT    *AcpiGbl_ParseOpRoot;
  * RETURN:      None
  *
  * DESCRIPTION: Create the disassembler header, including ACPICA signon with
- *              current time and date.
+ *              optional current time and date.
  *
  *****************************************************************************/
 
@@ -93,8 +93,6 @@ AdDisassemblerHeader (
 {
     time_t                  Timer;
 
-
-    time (&Timer);
 
     /* Header and input table info */
 
@@ -117,7 +115,15 @@ AdDisassemblerHeader (
         }
     }
 
-    AcpiOsPrintf (" * Disassembly of %s, %s", Filename, ctime (&Timer));
+    if (AslGbl_Deterministic)
+    {
+        AcpiOsPrintf (" * Disassembly of %s\n", Filename);
+    }
+    else
+    {
+        time (&Timer);
+        AcpiOsPrintf (" * Disassembly of %s, %s", Filename, ctime (&Timer));
+    }
     AcpiOsPrintf (" *\n");
 }
 
@@ -188,7 +194,7 @@ AdCreateTableHeader (
 
     AcpiOsPrintf ("\n *     Checksum         0x%2.2X",        Table->Checksum);
 
-    Checksum = AcpiTbChecksum (ACPI_CAST_PTR (UINT8, Table), Table->Length);
+    Checksum = AcpiUtChecksum (ACPI_CAST_PTR (UINT8, Table), Table->Length);
     if (Checksum)
     {
         AcpiOsPrintf (" **** Incorrect checksum, should be 0x%2.2X",

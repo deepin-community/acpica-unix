@@ -1,5 +1,5 @@
     /*
-     * Some or all of this work - Copyright (c) 2006 - 2020, Intel Corp.
+     * Some or all of this work - Copyright (c) 2006 - 2021, Intel Corp.
      * All rights reserved.
      *
      * Redistribution and use in source and binary forms, with or without modification,
@@ -28,7 +28,7 @@
     /*
      * Bug 0004:
      *
-     * SUMMARY: Concatenate being invoked in Method M000 changes the type of LocalX of calling Method passsed as operand to M000
+     * SUMMARY: Concatenate being invoked in Method M000 changes the type of LocalX of calling Method passed as operand to M000
      */
     Method (MD9F, 1, NotSerialized)
     {

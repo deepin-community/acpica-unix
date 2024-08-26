@@ -1,0 +1,51 @@
+From c82171f9a154ced37407a2d720e493e90731933e Mon Sep 17 00:00:00 2001
+From: Ivan Hu <ivan.hu@canonical.com>
+Date: Tue, 18 Jul 2023 17:02:26 +0800
+Subject: [PATCH] iASL: PHAT: fix the getting wrong string legth by wcslen
+
+Unlike Windows UTF-16 2-byte wide characters, wchar_t on Linux is 4 bytes
+UTF-32. So it will get unexpected string length and maybe Segmentation fault.
+
+Signed-off-by: Ivan Hu <ivan.hu@canonical.com>
+---
+ source/common/dmtbdump2.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+Index: acpica-unix-20230628/source/common/dmtbdump2.c
+===================================================================
+--- acpica-unix-20230628.orig/source/common/dmtbdump2.c
++++ acpica-unix-20230628/source/common/dmtbdump2.c
+@@ -41,7 +41,6 @@
+  * POSSIBILITY OF SUCH DAMAGES.
+  */
+ 
+-#include <wchar.h>
+ #include "acpi.h"
+ #include "accommon.h"
+ #include "acdisasm.h"
+@@ -2175,7 +2174,8 @@ AcpiDmDumpPhat (
+     UINT32                  PathLength;
+     UINT32                  VendorLength;
+     UINT16                  RecordType;
+-    const wchar_t           *WideString;
++    const UINT16            *WideString;
++    UINT32                  i;
+ 
+ 
+     Subtable = ACPI_ADD_PTR (ACPI_PHAT_HEADER, Table, sizeof (ACPI_TABLE_PHAT));
+@@ -2283,10 +2283,13 @@ AcpiDmDumpPhat (
+              * Get the length of the Device Path (UEFI wide string).
+              * Include the wide null terminator (+2),
+              */
+-            WideString = ACPI_ADD_PTR (wchar_t, Subtable,
++            WideString = ACPI_ADD_PTR (UINT16, Subtable,
+                 sizeof (ACPI_PHAT_HEALTH_DATA));
+ 
+-            PathLength = (wcslen (WideString) * 2) + 2;
++	   for (i = 0; *WideString; i++, WideString++)
++		;
++
++            PathLength = i * 2 + 2;
+             DbgPrint (ASL_DEBUG_OUTPUT, "/* %u, PathLength %X, Offset %X, Table->Length %X */\n",
+                 __LINE__, PathLength, Offset, Length);
+ 

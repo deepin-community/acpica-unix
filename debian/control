@@ -1,15 +1,15 @@
 Source: acpica-unix
 Section: devel
 Priority: optional
-Maintainer: Debian QA Group <packages@qa.debian.org>
-Build-Depends: debhelper (>= 10~), flex, bison
+Maintainer: Ivan Hu <ivan.hu@canonical.com>
+Build-Depends: debhelper-compat (= 13), flex, bison
 Standards-Version: 4.6.0
 Vcs-Git: https://salsa.debian.org/debian/acpica-unix.git
 Vcs-Browser: https://salsa.debian.org/debian/acpica-unix
-Homepage: http://www.acpica.org
+Homepage: https://www.acpica.org
 
 Package: acpica-tools
-Architecture: any
+Architecture: amd64 arm64 armel armhf i386 loong64 mips64el mipsel ppc64el riscv64 alpha arc hurd-i386 ia64 sh4 x32
 Replaces: iasl (<< 20130214-0.1), acpidump (<< 20100513-4)
 Breaks: iasl (<< 20130214-0.1), acpidump (<< 20100513-4)
 Provides: iasl, acpidump
@@ -32,7 +32,6 @@ Description: ACPICA tools for the development and debug of ACPI tables
     -- acpidump: write out the current contents of ACPI tables
     -- acpiexec: simulate AML execution in order to debug method definitions
     -- acpihelp: display help messages describing ASL keywords and op-codes
-    -- acpinames: display complete ACPI name space from input AML
     -- acpisrc: manipulate the ACPICA source tree and format source files
        for specific environments
     -- acpixtract: extract binary ACPI tables from acpidump output (see
