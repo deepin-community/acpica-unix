@@ -5,7 +5,7 @@
  ******************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2020, Intel Corp.
+ * Copyright (C) 2000 - 2023, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,7 @@
  * NO WARRANTY
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
  * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
  * HOLDERS OR CONTRIBUTORS BE LIABLE FOR SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
@@ -96,6 +96,8 @@ const UINT8                 AcpiGbl_ResourceAmlSizes[] =
     ACPI_AML_SIZE_LARGE (AML_RESOURCE_PIN_GROUP),
     ACPI_AML_SIZE_LARGE (AML_RESOURCE_PIN_GROUP_FUNCTION),
     ACPI_AML_SIZE_LARGE (AML_RESOURCE_PIN_GROUP_CONFIG),
+    ACPI_AML_SIZE_LARGE (AML_RESOURCE_CLOCK_INPUT),
+
 };
 
 const UINT8                 AcpiGbl_ResourceAmlSerialBusSizes[] =
@@ -104,6 +106,7 @@ const UINT8                 AcpiGbl_ResourceAmlSerialBusSizes[] =
     ACPI_AML_SIZE_LARGE (AML_RESOURCE_I2C_SERIALBUS),
     ACPI_AML_SIZE_LARGE (AML_RESOURCE_SPI_SERIALBUS),
     ACPI_AML_SIZE_LARGE (AML_RESOURCE_UART_SERIALBUS),
+    ACPI_AML_SIZE_LARGE (AML_RESOURCE_CSI2_SERIALBUS),
 };
 
 
@@ -155,6 +158,7 @@ static const UINT8          AcpiGbl_ResourceTypes[] =
     ACPI_VARIABLE_LENGTH,           /* 10 PinGroup */
     ACPI_VARIABLE_LENGTH,           /* 11 PinGroupFunction */
     ACPI_VARIABLE_LENGTH,           /* 12 PinGroupConfig */
+    ACPI_VARIABLE_LENGTH,           /* 13 ClockInput */
 };
 
 
@@ -420,16 +424,21 @@ AcpiUtValidateResource (
     AmlResource = ACPI_CAST_PTR (AML_RESOURCE, Aml);
     if (ResourceType == ACPI_RESOURCE_NAME_SERIAL_BUS)
     {
+        /* Avoid undefined behavior: member access within misaligned address */
+
+        AML_RESOURCE_COMMON_SERIALBUS CommonSerialBus;
+        memcpy(&CommonSerialBus, AmlResource, sizeof(CommonSerialBus));
+
         /* Validate the BusType field */
 
-        if ((AmlResource->CommonSerialBus.Type == 0) ||
-            (AmlResource->CommonSerialBus.Type > AML_RESOURCE_MAX_SERIALBUSTYPE))
+        if ((CommonSerialBus.Type == 0) ||
+            (CommonSerialBus.Type > AML_RESOURCE_MAX_SERIALBUSTYPE))
         {
             if (WalkState)
             {
                 ACPI_ERROR ((AE_INFO,
                     "Invalid/unsupported SerialBus resource descriptor: BusType 0x%2.2X",
-                    AmlResource->CommonSerialBus.Type));
+                    CommonSerialBus.Type));
             }
             return (AE_AML_INVALID_RESOURCE_TYPE);
         }

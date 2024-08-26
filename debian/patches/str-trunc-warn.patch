@@ -1,31 +1,31 @@
-Index: acpica-unix-20200214/source/compiler/aslanalyze.c
+Index: acpica-unix-20221020/source/compiler/aslanalyze.c
 ===================================================================
---- acpica-unix-20200214.orig/source/compiler/aslanalyze.c
-+++ acpica-unix-20200214/source/compiler/aslanalyze.c
-@@ -358,11 +358,16 @@ AnCheckMethodReturnValue (
+--- acpica-unix-20221020.orig/source/compiler/aslanalyze.c
++++ acpica-unix-20221020/source/compiler/aslanalyze.c
+@@ -466,11 +466,16 @@ AnCheckMethodReturnValue (
           */
          if (ThisNodeBtype != 0)
          {
 -            sprintf (AslGbl_MsgBuffer,
-+	     int cnt;
-+	     char *strp;
++            int cnt;
++            char *strp;
 +
 +            cnt = asprintf (&strp,
                  "Method returns [%s], %s operator requires [%s]",
                  AslGbl_StringBuffer, OpInfo->Name, AslGbl_StringBuffer2);
  
--            AslError (ASL_ERROR, ASL_MSG_INVALID_TYPE, ArgOp, AslGbl_MsgBuffer);
+-            AslError (ASL_WARNING, ASL_MSG_INVALID_TYPE, ArgOp, AslGbl_MsgBuffer);
 +            AslError (ASL_ERROR, ASL_MSG_INVALID_TYPE, ArgOp, strp);
-+	     if (cnt > 0)
-+	         free(strp);
++            if (cnt > 0)
++                free(strp);
          }
      }
  
-Index: acpica-unix-20200214/source/compiler/aslpredef.c
+Index: acpica-unix-20221020/source/compiler/aslpredef.c
 ===================================================================
---- acpica-unix-20200214.orig/source/compiler/aslpredef.c
-+++ acpica-unix-20200214/source/compiler/aslpredef.c
-@@ -159,14 +159,19 @@ ApCheckForPredefinedMethod (
+--- acpica-unix-20221020.orig/source/compiler/aslpredef.c
++++ acpica-unix-20221020/source/compiler/aslpredef.c
+@@ -267,14 +267,19 @@ ApCheckForPredefinedMethod (
          if (MethodInfo->NumReturnNoValue &&
              ThisName->Info.ExpectedBtypes)
          {
@@ -48,7 +48,7 @@ Index: acpica-unix-20200214/source/compiler/aslpredef.c
          }
          break;
      }
-@@ -698,18 +703,26 @@ TypeErrorExit:
+@@ -806,18 +811,26 @@ TypeErrorExit:
  
      AcpiUtGetExpectedReturnTypes (AslGbl_StringBuffer, ExpectedBtypes);
  
@@ -84,11 +84,11 @@ Index: acpica-unix-20200214/source/compiler/aslpredef.c
      return (AE_TYPE);
  }
  
-Index: acpica-unix-20200214/source/compiler/aslwalks.c
+Index: acpica-unix-20221020/source/compiler/aslwalks.c
 ===================================================================
---- acpica-unix-20200214.orig/source/compiler/aslwalks.c
-+++ acpica-unix-20200214/source/compiler/aslwalks.c
-@@ -515,15 +515,19 @@ AnOperandTypecheckWalkEnd (
+--- acpica-unix-20221020.orig/source/compiler/aslwalks.c
++++ acpica-unix-20221020/source/compiler/aslwalks.c
+@@ -623,15 +623,19 @@ AnOperandTypecheckWalkEnd (
              else if (!CommonBtypes)
              {
                  /* No match -- this is a type mismatch error */

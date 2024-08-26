@@ -1,5 +1,5 @@
 /*
- * Some or all of this work - Copyright (c) 2006 - 2020, Intel Corp.
+ * Some or all of this work - Copyright (c) 2006 - 2021, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -48,7 +48,7 @@
  *
  * It appears the AML interpreter shouldn't support TermList for these
  * objects as both the ASL grammar and AML grammar doesn't allow it. But
- * the real world apears not.
+ * the real world appears not.
  */
 
 Name(z181, 181)

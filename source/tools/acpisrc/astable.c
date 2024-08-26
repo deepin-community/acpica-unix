@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2020, Intel Corp.
+ * Copyright (C) 2000 - 2023, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,7 @@
  * NO WARRANTY
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
  * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
  * HOLDERS OR CONTRIBUTORS BE LIABLE FOR SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
@@ -89,7 +89,7 @@ ACPI_STRING_TABLE           StandardDataTypes[] = {
 char                        EmptyHeader[] = "";
 char                        DualLicenseHeader[] =
 "/*\n"
-" * Copyright (C) 2000 - 2020, Intel Corp.\n"
+" * Copyright (C) 2000 - 2023, Intel Corp.\n"
 " * All rights reserved.\n"
 " *\n"
 " * Redistribution and use in source and binary forms, with or without\n"
@@ -114,7 +114,7 @@ char                        DualLicenseHeader[] =
 " * NO WARRANTY\n"
 " * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n"
 " * \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\n"
-" * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR\n"
+" * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR\n"
 " * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT\n"
 " * HOLDERS OR CONTRIBUTORS BE LIABLE FOR SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\n"
 " * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS\n"
@@ -198,6 +198,7 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_CONVERSION_TABLE",               SRC_TYPE_STRUCT},
     {"ACPI_CPU_FLAGS",                      SRC_TYPE_SIMPLE},
     {"ACPI_CREATE_FIELD_INFO",              SRC_TYPE_STRUCT},
+    {"ACPI_DATA_TABLE_MAPPING",             SRC_TYPE_STRUCT},
     {"ACPI_DB_ARGUMENT_INFO",               SRC_TYPE_STRUCT},
     {"ACPI_DB_COMMAND_HELP",                SRC_TYPE_STRUCT},
     {"ACPI_DB_COMMAND_INFO",                SRC_TYPE_STRUCT},
@@ -231,6 +232,7 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_FIND_CONTEXT",                   SRC_TYPE_STRUCT},
     {"ACPI_FIXED_EVENT_HANDLER",            SRC_TYPE_STRUCT},
     {"ACPI_FIXED_EVENT_INFO",               SRC_TYPE_STRUCT},
+    {"ACPI_FFH_INFO",                       SRC_TYPE_STRUCT},
     {"ACPI_GBL_EVENT_HANDLER",              SRC_TYPE_SIMPLE},
     {"ACPI_GENERIC_ADDRESS",                SRC_TYPE_STRUCT},
     {"ACPI_GENERIC_STATE",                  SRC_TYPE_UNION},
@@ -265,11 +267,11 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_LPIT_HEADER",                    SRC_TYPE_STRUCT},
     {"ACPI_LPIT_IO",                        SRC_TYPE_STRUCT},
     {"ACPI_LPIT_NATIVE",                    SRC_TYPE_STRUCT},
+    {"ACPI_MEM_MAPPING",                    SRC_TYPE_STRUCT},
     {"ACPI_MEM_SPACE_CONTEXT",              SRC_TYPE_STRUCT},
     {"ACPI_MEMORY_ATTRIBUTE",               SRC_TYPE_STRUCT},
     {"ACPI_MEMORY_LIST",                    SRC_TYPE_STRUCT},
     {"ACPI_METHOD_LOCAL",                   SRC_TYPE_STRUCT},
-    {"ACPI_MTMR_ENTRY",                     SRC_TYPE_STRUCT},
     {"ACPI_MUTEX",                          SRC_TYPE_SIMPLE},
     {"ACPI_MUTEX_HANDLE",                   SRC_TYPE_SIMPLE},
     {"ACPI_MUTEX_INFO",                     SRC_TYPE_STRUCT},
@@ -281,6 +283,7 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_NATIVE_INT",                     SRC_TYPE_SIMPLE},
     {"ACPI_NATIVE_UINT",                    SRC_TYPE_SIMPLE},
     {"ACPI_NEW_TABLE_DESC",                 SRC_TYPE_STRUCT},
+
     {"ACPI_NOTIFY_HANDLER",                 SRC_TYPE_SIMPLE},
     {"ACPI_NOTIFY_INFO",                    SRC_TYPE_STRUCT},
     {"ACPI_NS_SEARCH_DATA",                 SRC_TYPE_STRUCT},
@@ -335,6 +338,7 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_PARSE_STATE",                    SRC_TYPE_STRUCT},
     {"ACPI_PARSE_UPWARDS",                  SRC_TYPE_SIMPLE},
     {"ACPI_PARSE_VALUE",                    SRC_TYPE_UNION},
+    {"ACPI_PCC_INFO",                       SRC_TYPE_STRUCT},
     {"ACPI_PCI_DEVICE",                     SRC_TYPE_STRUCT},
     {"ACPI_PCI_ID",                         SRC_TYPE_STRUCT},
     {"ACPI_PCI_ROUTING_TABLE",              SRC_TYPE_STRUCT},
@@ -356,6 +360,10 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_RASF_PARAMETER_BLOCK",           SRC_TYPE_STRUCT},
     {"ACPI_RASF_PATROL_SCRUB_PARAMETER",    SRC_TYPE_STRUCT},
     {"ACPI_RASF_SHARED_MEMORY",             SRC_TYPE_STRUCT},
+    {"ACPI_RAS2_PARAMETER_BLOCK",           SRC_TYPE_STRUCT},
+    {"ACPI_RAS2_PATROL_SCRUB_PARAMETER",    SRC_TYPE_STRUCT},
+    {"ACPI_RAS2_LA2PA_TRANSLATION_PARAM",   SRC_TYPE_STRUCT},
+    {"ACPI_RAS2_SHARED_MEMORY",             SRC_TYPE_STRUCT},
     {"ACPI_REGION_WALK_INFO",               SRC_TYPE_STRUCT},
     {"ACPI_REPAIR_FUNCTION",                SRC_TYPE_SIMPLE},
     {"ACPI_REPAIR_INFO",                    SRC_TYPE_STRUCT},
@@ -367,6 +375,7 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_RESOURCE_ADDRESS32",             SRC_TYPE_STRUCT},
     {"ACPI_RESOURCE_ADDRESS64",             SRC_TYPE_STRUCT},
     {"ACPI_RESOURCE_COMMON_SERIALBUS",      SRC_TYPE_STRUCT},
+    {"ACPI_RESOURCE_CSI2_SERIALBUS",        SRC_TYPE_STRUCT},
     {"ACPI_RESOURCE_EXTENDED_ADDRESS64",    SRC_TYPE_STRUCT},
     {"ACPI_RESOURCE_ATTRIBUTE",             SRC_TYPE_UNION},
     {"ACPI_RESOURCE_DATA",                  SRC_TYPE_UNION},
@@ -427,10 +436,8 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_TABLE_INFO",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_LIST",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_LPIT",                     SRC_TYPE_STRUCT},
-    {"ACPI_TABLE_MTMR",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_SUPPORT",                  SRC_TYPE_STRUCT},
     {"ACPI_TABLE_TYPE",                     SRC_TYPE_SIMPLE},
-    {"ACPI_TABLE_VRTC",                     SRC_TYPE_STRUCT},
     {"ACPI_TAG_INFO",                       SRC_TYPE_STRUCT},
     {"ACPI_THREAD_ID",                      SRC_TYPE_SIMPLE},
     {"ACPI_THREAD_STATE",                   SRC_TYPE_STRUCT},
@@ -441,7 +448,6 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_UUID",                           SRC_TYPE_STRUCT},
     {"ACPI_VENDOR_UUID",                    SRC_TYPE_STRUCT},
     {"ACPI_VENDOR_WALK_INFO",               SRC_TYPE_STRUCT},
-    {"ACPI_VRTC_ENTRY",                     SRC_TYPE_STRUCT},
     {"ACPI_WALK_AML_CALLBACK",              SRC_TYPE_SIMPLE},
     {"ACPI_WALK_CALLBACK",                  SRC_TYPE_SIMPLE},
     {"ACPI_WALK_RESOURCE_CALLBACK",         SRC_TYPE_SIMPLE},
@@ -467,6 +473,7 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"AML_RESOURCE_ADDRESS32",              SRC_TYPE_STRUCT},
     {"AML_RESOURCE_ADDRESS64",              SRC_TYPE_STRUCT},
     {"AML_RESOURCE_COMMON_SERIALBUS",       SRC_TYPE_STRUCT},
+    {"AML_RESOURCE_CSI2_SERIALBUS",         SRC_TYPE_STRUCT},
     {"AML_RESOURCE_DMA",                    SRC_TYPE_STRUCT},
     {"AML_RESOURCE_END_DEPENDENT",          SRC_TYPE_STRUCT},
     {"AML_RESOURCE_END_TAG",                SRC_TYPE_STRUCT},
@@ -533,10 +540,16 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     /*
      * Acpi table definition names.
      */
+    {"ACPI_TABLE_AEST",                     SRC_TYPE_STRUCT},
+    {"ACPI_TABLE_AGDI",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_ASF",                      SRC_TYPE_STRUCT},
+    {"ACPI_TABLE_BDAT",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_BERT",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_BGRT",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_BOOT",                     SRC_TYPE_STRUCT},
+    {"ACPI_TABLE_CCEL",                     SRC_TYPE_STRUCT},
+    {"ACPI_TABLE_CDAT",                     SRC_TYPE_STRUCT},
+    {"ACPI_TABLE_CEDT",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_CPEP",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_CSRT",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_DBG2",                     SRC_TYPE_STRUCT},
@@ -559,19 +572,25 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_TABLE_MADT",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_MCFG",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_MCHI",                     SRC_TYPE_STRUCT},
+    {"ACPI_TABLE_MPAM",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_MPST",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_MSCT",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_MSDM",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_NFIT",                     SRC_TYPE_STRUCT},
+    {"ACPI_TABLE_NHLT",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_PCCT",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_PDTT",                     SRC_TYPE_STRUCT},
+    {"ACPI_TABLE_PHAT",                     SRC_TYPE_STRUCT},
+    {"ACPI_TABLE_PMTT",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_PPTT",                     SRC_TYPE_STRUCT},
+    {"ACPI_TABLE_PRMT",                     SRC_TYPE_STRUCT},
+    {"ACPI_TABLE_RGRT",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_RSDP",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_RSDT",                     SRC_TYPE_STRUCT},
-    {"ACPI_TABLE_MCHI",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_S3PT",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_SBST",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_SDEV",                     SRC_TYPE_STRUCT},
+    {"ACPI_TABLE_SVKL",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_SLIC",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_SLIT",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_SPCR",                     SRC_TYPE_STRUCT},
@@ -579,9 +598,11 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_TABLE_SRAT",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_STAO",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_TCPA",                     SRC_TYPE_STRUCT},
+    {"ACPI_TABLE_TDEL",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_TPM2",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_TPM23",                    SRC_TYPE_STRUCT},
     {"ACPI_TABLE_UEFI",                     SRC_TYPE_STRUCT},
+    {"ACPI_TABLE_VIOT",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_WAET",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_WDAT",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_WDDT",                     SRC_TYPE_STRUCT},
@@ -591,6 +612,19 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_TABLE_XENV",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_XSDT",                     SRC_TYPE_STRUCT},
 
+    /* Individual per-table names (typically subtables) */
+
+    {"ACPI_AEST_GIC",                       SRC_TYPE_STRUCT},
+    {"ACPI_AEST_HEADER",                    SRC_TYPE_STRUCT},
+    {"ACPI_AEST_MEMORY",                    SRC_TYPE_STRUCT},
+    {"ACPI_AEST_NODE_INTERFACE",            SRC_TYPE_STRUCT},
+    {"ACPI_AEST_NODE_INTERRUPT",            SRC_TYPE_STRUCT},
+    {"ACPI_AEST_PROCESSOR",                 SRC_TYPE_STRUCT},
+    {"ACPI_AEST_PROCESSOR_CACHE",           SRC_TYPE_STRUCT},
+    {"ACPI_AEST_PROCESSOR_GENERIC",         SRC_TYPE_STRUCT},
+    {"ACPI_AEST_PROCESSOR_TLB",             SRC_TYPE_STRUCT},
+    {"ACPI_AEST_SMMU",                      SRC_TYPE_STRUCT},
+    {"ACPI_AEST_VENDOR",                    SRC_TYPE_STRUCT},
     {"ACPI_ASF_ADDRESS",                    SRC_TYPE_STRUCT},
     {"ACPI_ASF_ALERT",                      SRC_TYPE_STRUCT},
     {"ACPI_ASF_ALERT_DATA",                 SRC_TYPE_STRUCT},
@@ -600,6 +634,8 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_ASF_REMOTE",                     SRC_TYPE_STRUCT},
     {"ACPI_ASF_RMCP",                       SRC_TYPE_STRUCT},
     {"ACPI_BERT_REGION",                    SRC_TYPE_STRUCT},
+    {"ACPI_CEDT_CHBS",                      SRC_TYPE_STRUCT},
+    {"ACPI_CEDT_HEADER",                    SRC_TYPE_STRUCT},
     {"ACPI_CPEP_POLLING",                   SRC_TYPE_STRUCT},
     {"ACPI_CSRT_GROUP",                     SRC_TYPE_STRUCT},
     {"ACPI_CSRT_DESCRIPTOR",                SRC_TYPE_STRUCT},
@@ -663,6 +699,8 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_IORT_SMMU_GSI",                  SRC_TYPE_STRUCT},
     {"ACPI_IORT_SMMU_V3",                   SRC_TYPE_STRUCT},
     {"ACPI_IORT_PMCG",                      SRC_TYPE_STRUCT},
+    {"ACPI_IORT_RMR",                       SRC_TYPE_STRUCT},
+    {"ACPI_IORT_RMR_DESC",                  SRC_TYPE_STRUCT},
     {"ACPI_IVRS_HEADER",                    SRC_TYPE_STRUCT},
     {"ACPI_IVRS_HARDWARE",                  SRC_TYPE_STRUCT},
     {"ACPI_IVRS_DE_HEADER",                 SRC_TYPE_STRUCT},
@@ -688,35 +726,67 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_MADT_INTERRUPT_OVERRIDE",        SRC_TYPE_STRUCT},
     {"ACPI_MADT_INTERRUPT_SOURCE",          SRC_TYPE_STRUCT},
     {"ACPI_MADT_NMI_SOURCE",                SRC_TYPE_STRUCT},
+    {"ACPI_MADT_MULTIPROC_WAKEUP",          SRC_TYPE_STRUCT},
+    {"ACPI_MADT_MULTIPROC_WAKEUP_MAILBOX",  SRC_TYPE_STRUCT},
     {"ACPI_MADT_PROCESSOR_APIC",            SRC_TYPE_STRUCT},
+    {"ACPI_MCFG_ALLOCATION",                SRC_TYPE_STRUCT},
+    {"ACPI_MPAM_MSC_NODE",                  SRC_TYPE_STRUCT},
+    {"ACPI_MPAM_RESOURCE_LOCATOR",          SRC_TYPE_STRUCT},
+    {"ACPI_MPAM_RESOURCE_NODE",             SRC_TYPE_STRUCT},
     {"ACPI_MPST_COMPONENT",                 SRC_TYPE_STRUCT},
     {"ACPI_MPST_DATA_HDR",                  SRC_TYPE_STRUCT},
     {"ACPI_MPST_POWER_DATA",                SRC_TYPE_STRUCT},
     {"ACPI_MPST_POWER_NODE",                SRC_TYPE_STRUCT},
     {"ACPI_MPST_POWER_STATE",               SRC_TYPE_STRUCT},
-    {"ACPI_MCFG_ALLOCATION",                SRC_TYPE_STRUCT},
     {"ACPI_MSCT_PROXIMITY",                 SRC_TYPE_STRUCT},
     {"ACPI_NFIT_CAPABILITIES",              SRC_TYPE_STRUCT},
-    {"ACPI_NFIT_DEVICE_HANDLE",             SRC_TYPE_STRUCT},
-    {"ACPI_NFIT_HEADER",                    SRC_TYPE_STRUCT},
-    {"ACPI_NFIT_SYSTEM_ADDRESS",            SRC_TYPE_STRUCT},
-    {"ACPI_NFIT_MEMORY_MAP",                SRC_TYPE_STRUCT},
-    {"ACPI_NFIT_INTERLEAVE",                SRC_TYPE_STRUCT},
-    {"ACPI_NFIT_SMBIOS",                    SRC_TYPE_STRUCT},
     {"ACPI_NFIT_CONTROL_REGION",            SRC_TYPE_STRUCT},
     {"ACPI_NFIT_DATA_REGION",               SRC_TYPE_STRUCT},
+    {"ACPI_NFIT_DEVICE_HANDLE",             SRC_TYPE_STRUCT},
     {"ACPI_NFIT_FLUSH_ADDRESS",             SRC_TYPE_STRUCT},
+    {"ACPI_NFIT_HEADER",                    SRC_TYPE_STRUCT},
+    {"ACPI_NFIT_INTERLEAVE",                SRC_TYPE_STRUCT},
+    {"ACPI_NFIT_MEMORY_MAP",                SRC_TYPE_STRUCT},
+    {"ACPI_NFIT_SMBIOS",                    SRC_TYPE_STRUCT},
+    {"ACPI_NFIT_SYSTEM_ADDRESS",            SRC_TYPE_STRUCT},
+    {"ACPI_NHLT_ENDPOINT",                  SRC_TYPE_STRUCT},
+    {"ACPI_NHLT_CONFIG",                    SRC_TYPE_STRUCT},
+    {"ACPI_NHLT_GENDEVICE_CONFIG",          SRC_TYPE_STRUCT},
+    {"ACPI_NHLT_MICDEVICE_CONFIG",          SRC_TYPE_STRUCT},
+    {"ACPI_NHLT_VENDOR_MIC_CONFIG",         SRC_TYPE_STRUCT},
+    {"ACPI_NHLT_VENDOR_MICDEVICE_CONFIG",   SRC_TYPE_STRUCT},
+    {"ACPI_NHLT_DEVICE_CONFIG",             SRC_TYPE_UNION},
+    {"ACPI_NHLT_WAVE_FORMATEXT",            SRC_TYPE_STRUCT},
+    {"ACPI_NHLT_FORMAT_CONFIG",             SRC_TYPE_STRUCT},
+    {"ACPI_NHLT_FORMATS_CONFIG",            SRC_TYPE_STRUCT},
+    {"ACPI_NHLT_DEVICE_INFO",               SRC_TYPE_STRUCT},
+    {"ACPI_NHLT_DEVICES_INFO",              SRC_TYPE_STRUCT},
     {"ACPI_PCCT_EXT_PCC_SHARED_MEMORY",     SRC_TYPE_STRUCT},
     {"ACPI_PCCT_HW_REDUCED",                SRC_TYPE_STRUCT},
     {"ACPI_PCCT_HW_REDUCED_TYPE2",          SRC_TYPE_STRUCT},
     {"ACPI_PCCT_EXT_PCC_MASTER",            SRC_TYPE_STRUCT},
     {"ACPI_PCCT_EXT_PCC_SLAVE",             SRC_TYPE_STRUCT},
+    {"ACPI_PCCT_HW_REG",                    SRC_TYPE_STRUCT},
     {"ACPI_PCCT_SHARED_MEMORY",             SRC_TYPE_STRUCT},
     {"ACPI_PCCT_SUBSPACE",                  SRC_TYPE_STRUCT},
     {"ACPI_PDTT_CHANNEL",                   SRC_TYPE_STRUCT},
+    {"ACPI_PHAT_HEADER",                    SRC_TYPE_STRUCT},
+    {"ACPI_PHAT_VERSION_DATA",              SRC_TYPE_STRUCT},
+    {"ACPI_PHAT_VERSION_ELEMENT",           SRC_TYPE_STRUCT},
+    {"ACPI_PHAT_HEALTH_DATA",               SRC_TYPE_STRUCT},
+    {"ACPI_PMTT_CONTROLLER",                SRC_TYPE_STRUCT},
+    {"ACPI_PMTT_HEADER",                    SRC_TYPE_STRUCT},
+    {"ACPI_PMTT_PHYSICAL_COMPONENT",        SRC_TYPE_STRUCT},
+    {"ACPI_PMTT_SOCKET",                    SRC_TYPE_STRUCT},
+    {"ACPI_PMTT_VENDOR_SPECIFIC",           SRC_TYPE_STRUCT},
     {"ACPI_PPTT_CACHE",                     SRC_TYPE_STRUCT},
+    {"ACPI_PPTT_CACHE_V1",                  SRC_TYPE_STRUCT},
     {"ACPI_PPTT_ID",                        SRC_TYPE_STRUCT},
     {"ACPI_PPTT_PROCESSOR",                 SRC_TYPE_STRUCT},
+    {"ACPI_TABLE_PRMT_HEADER",              SRC_TYPE_STRUCT},
+    {"ACPI_PRMT_MODULE_HEADER",             SRC_TYPE_STRUCT},
+    {"ACPI_PRMT_MODULE_INFO",               SRC_TYPE_STRUCT},
+    {"ACPI_PRMT_HANDLER_INFO",              SRC_TYPE_STRUCT},
     {"ACPI_RSDP_COMMON",                    SRC_TYPE_STRUCT},
     {"ACPI_RSDP_EXTENSION",                 SRC_TYPE_STRUCT},
     {"ACPI_S3PT_RESUME",                    SRC_TYPE_STRUCT},
@@ -725,6 +795,7 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_SDEV_NAMESPACE",                 SRC_TYPE_STRUCT},
     {"ACPI_SDEV_PCIE",                      SRC_TYPE_STRUCT},
     {"ACPI_SDEV_PCIE_PATH",                 SRC_TYPE_STRUCT},
+    {"ACPI_SVKL_KEY",                       SRC_TYPE_STRUCT},
     {"ACPI_SRAT_CPU_AFFINITY",              SRC_TYPE_STRUCT},
     {"ACPI_SRAT_HEADER",                    SRC_TYPE_STRUCT},
     {"ACPI_SRAT_GIC_ITS_AFFINITY",          SRC_TYPE_STRUCT},
@@ -732,12 +803,19 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_SRAT_GENERIC_AFFINITY",          SRC_TYPE_STRUCT},
     {"ACPI_SRAT_MEM_AFFINITY",              SRC_TYPE_STRUCT},
     {"ACPI_SRAT_X2APIC_CPU_AFFINITY",       SRC_TYPE_STRUCT},
+    {"ACPI_SRAT_RINTC_AFFINITY",            SRC_TYPE_STRUCT},
     {"ACPI_TABLE_TCPA_CLIENT",              SRC_TYPE_STRUCT},
     {"ACPI_TABLE_TCPA_SERVER",              SRC_TYPE_STRUCT},
     {"ACPI_TPM2_TRAILER",                   SRC_TYPE_STRUCT},
     {"ACPI_TPM23_TRAILER",                  SRC_TYPE_STRUCT},
     {"ACPI_TPM2_ARM_SMC",                   SRC_TYPE_STRUCT},
+    {"ACPI_VIOT_HEADER",                    SRC_TYPE_STRUCT},
+    {"ACPI_VIOT_PCI_RANGE",                 SRC_TYPE_STRUCT},
+    {"ACPI_VIOT_MMIO",                      SRC_TYPE_STRUCT},
+    {"ACPI_VIOT_VIRTIO_IOMMU_PCI",          SRC_TYPE_STRUCT},
+    {"ACPI_VIOT_VIRTIO_IOMMU_MMIO",         SRC_TYPE_STRUCT},
     {"ACPI_WDAT_ENTRY",                     SRC_TYPE_STRUCT},
+    {"ACPI_WPBT_UNICODE",                   SRC_TYPE_STRUCT},
 
     /* Data Table compiler */
 
@@ -765,6 +843,7 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"AH_ASL_KEYWORD",                      SRC_TYPE_STRUCT},
     {"AH_DEVICE_ID",                        SRC_TYPE_STRUCT},
     {"AH_PREDEFINED_NAME",                  SRC_TYPE_STRUCT},
+    {"AH_TABLE",                            SRC_TYPE_STRUCT},
     {"AH_UUID",                             SRC_TYPE_STRUCT},
 
     /* AcpiXtract utility */
@@ -1055,8 +1134,8 @@ ACPI_CONVERSION_TABLE       LicenseConversionTable =
 
 ACPI_STRING_TABLE           CustomReplacements[] =
 {
-    {"(c) 1999 - 2020",     "(c) 1999 - 2020",         REPLACE_WHOLE_WORD}, /* Main ACPICA source */
-    {"(c) 2006 - 2020",     "(c) 2006 - 2020",         REPLACE_WHOLE_WORD}, /* Test suites */
+    {"(c) 1999 - 2021",     "(c) 1999 - 2024",         REPLACE_WHOLE_WORD}, /* Main ACPICA source */
+    {"(c) 2006 - 2021",     "(c) 2006 - 2023",         REPLACE_WHOLE_WORD}, /* Test suites */
 
 #if 0
     {"SUPPORT, ASSISTANCE", "SUPPORT, ASSISTANCE",     REPLACE_WHOLE_WORD}, /* Fix intel header */

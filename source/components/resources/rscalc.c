@@ -5,7 +5,7 @@
  ******************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2020, Intel Corp.
+ * Copyright (C) 2000 - 2023, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,7 @@
  * NO WARRANTY
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
  * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
  * HOLDERS OR CONTRIBUTORS BE LIABLE FOR SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
@@ -372,6 +372,13 @@ AcpiRsGetAmlLength (
 
             break;
 
+        case ACPI_RESOURCE_TYPE_CLOCK_INPUT:
+
+            TotalSize = (ACPI_RS_LENGTH) (TotalSize +
+                Resource->Data.ClockInput.ResourceSource.StringLength);
+
+            break;
+
 
         case ACPI_RESOURCE_TYPE_SERIAL_BUS:
 
@@ -625,14 +632,19 @@ AcpiRsGetListLength (
             }
             break;
 
-        case ACPI_RESOURCE_NAME_SERIAL_BUS:
+        case ACPI_RESOURCE_NAME_SERIAL_BUS: {
+            /* Avoid undefined behavior: member access within misaligned address */
+
+            AML_RESOURCE_COMMON_SERIALBUS CommonSerialBus;
+            memcpy(&CommonSerialBus, AmlResource, sizeof(CommonSerialBus));
 
             MinimumAmlResourceLength = AcpiGbl_ResourceAmlSerialBusSizes[
-                AmlResource->CommonSerialBus.Type];
+                CommonSerialBus.Type];
             ExtraStructBytes +=
-                AmlResource->CommonSerialBus.ResourceLength -
+                CommonSerialBus.ResourceLength -
                 MinimumAmlResourceLength;
             break;
+        }
 
         case ACPI_RESOURCE_NAME_PIN_CONFIG:
 
@@ -681,6 +693,12 @@ AcpiRsGetListLength (
 
             break;
 
+        case ACPI_RESOURCE_NAME_CLOCK_INPUT:
+            ExtraStructBytes = AcpiRsStreamOptionLength (
+                ResourceLength, MinimumAmlResourceLength);
+
+            break;
+
         default:
 
             break;
@@ -695,8 +713,13 @@ AcpiRsGetListLength (
         if (AcpiUtGetResourceType (AmlBuffer) ==
             ACPI_RESOURCE_NAME_SERIAL_BUS)
         {
+            /* Avoid undefined behavior: member access within misaligned address */
+
+            AML_RESOURCE_COMMON_SERIALBUS CommonSerialBus;
+            memcpy(&CommonSerialBus, AmlResource, sizeof(CommonSerialBus));
+
             BufferSize = AcpiGbl_ResourceStructSerialBusSizes[
-                AmlResource->CommonSerialBus.Type] + ExtraStructBytes;
+                CommonSerialBus.Type] + ExtraStructBytes;
         }
         else
         {
@@ -708,9 +731,9 @@ AcpiRsGetListLength (
         *SizeNeeded += BufferSize;
 
         ACPI_DEBUG_PRINT ((ACPI_DB_RESOURCES,
-            "Type %.2X, AmlLength %.2X InternalLength %.2X\n",
+            "Type %.2X, AmlLength %.2X InternalLength %.2X%8X\n",
             AcpiUtGetResourceType (AmlBuffer),
-            AcpiUtGetDescriptorLength (AmlBuffer), BufferSize));
+            AcpiUtGetDescriptorLength (AmlBuffer), ACPI_FORMAT_UINT64(*SizeNeeded)));
 
         /*
          * Point to the next resource within the AML stream using the length
