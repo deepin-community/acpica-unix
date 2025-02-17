@@ -8,11 +8,7 @@ int-format.patch
 f23-harden.patch
 template.patch
 arm7hl.patch
-cve-2017-13693.patch
-cve-2017-13694.patch
 cve-2017-13695.patch
 str-trunc-warn.patch
 armv7-str-fixes.patch
 fix_ftbfs_mips64el.patch
-0001-iASL-PHAT-fix-the-getting-wrong-string-legth-by-wcsl.patch
-0001-iASL-PHAT-fix-the-wrong-offset-of-ACPI_PHAT_HEALTH_D.patch
