@@ -205,6 +205,7 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoIortAcc[] =
     {ACPI_DMT_UINT8,    ACPI_IORTA_OFFSET (MemoryFlags),            "Memory Flags (decoded below)", 0},
     {ACPI_DMT_FLAG0,    ACPI_IORTA_FLAG_OFFSET (MemoryFlags, 0),    "Coherency", 0},
     {ACPI_DMT_FLAG1,    ACPI_IORTA_FLAG_OFFSET (MemoryFlags, 0),    "Device Attribute", 0},
+    {ACPI_DMT_FLAG2,    ACPI_IORTA_FLAG_OFFSET (MemoryFlags, 0),    "Ensured Coherency of Accesses", 0},
     ACPI_DMT_TERMINATOR
 };
 
@@ -1122,7 +1123,7 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoMpam0[] =
     {ACPI_DMT_UINT32,   ACPI_MPAM0_OFFSET (MaxNrdyUsec),                 "MAX_NRDY_USEC", 0},
     {ACPI_DMT_NAME8,    ACPI_MPAM0_OFFSET (HardwareIdLinkedDevice),      "Hardware ID of linked device", 0},
     {ACPI_DMT_UINT32,   ACPI_MPAM0_OFFSET (InstanceIdLinkedDevice),      "Instance ID of linked device", 0},
-    {ACPI_DMT_UINT32,   ACPI_MPAM0_OFFSET (NumResouceNodes),             "Number of resource nodes", 0},
+    {ACPI_DMT_UINT32,   ACPI_MPAM0_OFFSET (NumResourceNodes),            "Number of resource nodes", 0},
 
     ACPI_DMT_TERMINATOR
 };
@@ -1153,6 +1154,7 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoMpam1A[] =
 {
     {ACPI_DMT_UINT64,   ACPI_MPAM1A_OFFSET (CacheReference),                "Cache reference", 0},
     {ACPI_DMT_UINT32,   ACPI_MPAM1A_OFFSET (Reserved),                      "Reserved", 0},
+    ACPI_DMT_TERMINATOR
 };
 
 /* 1B: MPAM Memory locator descriptor. A subtable of RIS.
@@ -1162,6 +1164,7 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoMpam1B[] =
 {
     {ACPI_DMT_UINT64,   ACPI_MPAM1B_OFFSET (ProximityDomain),               "Proximity domain", 0},
     {ACPI_DMT_UINT32,   ACPI_MPAM1B_OFFSET (Reserved),                      "Reserved", 0},
+    ACPI_DMT_TERMINATOR
 };
 
 /* 1C: MPAM SMMU locator descriptor. A subtable of RIS.
@@ -1171,6 +1174,7 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoMpam1C[] =
 {
     {ACPI_DMT_UINT64,   ACPI_MPAM1C_OFFSET (SmmuInterface),                 "SMMU Interface", 0},
     {ACPI_DMT_UINT32,   ACPI_MPAM1C_OFFSET (Reserved),                      "Reserved", 0},
+    ACPI_DMT_TERMINATOR
 };
 
 /* 1D: MPAM Memory-side cache locator descriptor. A subtable of RIS.
@@ -1178,9 +1182,10 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoMpam1C[] =
  */
 ACPI_DMTABLE_INFO           AcpiDmTableInfoMpam1D[] =
 {
-    {ACPI_DMT_UINT56,   ACPI_MPAM1D_OFFSET (Level),                         "Reserved", 0},
+    {ACPI_DMT_UINT56,   ACPI_MPAM1D_OFFSET (Reserved),                      "Reserved", 0},
     {ACPI_DMT_UINT8,    ACPI_MPAM1D_OFFSET (Level),                         "Level", 0},
     {ACPI_DMT_UINT32,   ACPI_MPAM1D_OFFSET (Reference),                     "Reference", 0},
+    ACPI_DMT_TERMINATOR
 };
 
 /* 1E: MPAM ACPI device locator descriptor. A subtable of RIS.
@@ -1190,6 +1195,7 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoMpam1E[] =
 {
     {ACPI_DMT_UINT64,   ACPI_MPAM1E_OFFSET (AcpiHwId),                      "ACPI Hardware ID", 0},
     {ACPI_DMT_UINT32,   ACPI_MPAM1E_OFFSET (AcpiUniqueId),                  "ACPI Unique ID", 0},
+    ACPI_DMT_TERMINATOR
 };
 
 /* 1F: MPAM Interconnect locator descriptor. A subtable of RIS.
@@ -1199,6 +1205,7 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoMpam1F[] =
 {
     {ACPI_DMT_UINT64,   ACPI_MPAM1F_OFFSET (InterConnectDescTblOff),        "Interconnect descriptor table offset", 0},
     {ACPI_DMT_UINT32,   ACPI_MPAM1F_OFFSET (Reserved),                      "Reserved", 0},
+    ACPI_DMT_TERMINATOR
 };
 
 /* 1G: MPAM Locator structure.
@@ -1208,6 +1215,7 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoMpam1G[] =
 {
     {ACPI_DMT_UINT64,   ACPI_MPAM1G_OFFSET (Descriptor1),                   "Descriptor1", 0},
     {ACPI_DMT_UINT32,   ACPI_MPAM1G_OFFSET (Descriptor2),                   "Descriptor2", 0},
+    ACPI_DMT_TERMINATOR
 };
 
 /* 2: MPAM Functional dependency descriptor.
@@ -1217,6 +1225,7 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoMpam2[] =
 {
     {ACPI_DMT_UINT32,   ACPI_MPAM2_OFFSET (Producer),                       "Producer", 0},
     {ACPI_DMT_UINT32,   ACPI_MPAM2_OFFSET (Reserved),                       "Reserved", 0},
+    ACPI_DMT_TERMINATOR
 };
 
 

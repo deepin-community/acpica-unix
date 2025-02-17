@@ -82,6 +82,8 @@ static const char           *AcpiDmAestSubnames[] =
     "SMMU Error Node",
     "Vendor-defined Error Node",
     "GIC Error Node",
+    "PCIE Error Node",
+    "PROXY Error Node",
     "Unknown Subtable Type"         /* Reserved */
 };
 
@@ -106,6 +108,7 @@ static const char           *AcpiDmAestXfaceNames[] =
 {
     "System Register Interface",
     "Memory Mapped Interface",
+    "Single Record Memory Mapped Interface",
     "Unknown Interface Type"        /* Reserved */
 };
 
@@ -149,6 +152,7 @@ static const char           *AcpiDmCedtSubnames[] =
 {
     "CXL Host Bridge Structure",
     "CXL Fixed Memory Window Structure",
+    "CXL XOR Interleave Math Structure",
     "Unknown Subtable Type"         /* Reserved */
 };
 
@@ -974,7 +978,7 @@ AcpiDmDumpTable (
         {
             AcpiOsPrintf (
                 "/**** ACPI table terminates "
-                "in the middle of a data structure! (dump table) \n"
+                "in the middle of a data structure! (dump table)\n"
                 "CurrentOffset: %X, TableLength: %X ***/", CurrentOffset, TableLength);
             return (AE_BAD_DATA);
         }
@@ -1087,6 +1091,16 @@ AcpiDmDumpTable (
         case ACPI_DMT_BUF18:
 
             ByteLength = 18;
+            break;
+
+        case ACPI_DMT_BUF32:
+
+            ByteLength = 32;
+            break;
+
+        case ACPI_DMT_BUF112:
+
+            ByteLength = 112;
             break;
 
         case ACPI_DMT_BUF128:
@@ -1300,6 +1314,8 @@ AcpiDmDumpTable (
         case ACPI_DMT_BUF12:
         case ACPI_DMT_BUF16:
         case ACPI_DMT_BUF18:
+        case ACPI_DMT_BUF32:
+        case ACPI_DMT_BUF112:
         case ACPI_DMT_BUF128:
             /*
              * Buffer: Size depends on the opcode and was set above.
