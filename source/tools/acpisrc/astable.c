@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2023, Intel Corp.
+ * Copyright (C) 2000 - 2025, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -89,7 +89,7 @@ ACPI_STRING_TABLE           StandardDataTypes[] = {
 char                        EmptyHeader[] = "";
 char                        DualLicenseHeader[] =
 "/*\n"
-" * Copyright (C) 2000 - 2023, Intel Corp.\n"
+" * Copyright (C) 2000 - 2025, Intel Corp.\n"
 " * All rights reserved.\n"
 " *\n"
 " * Redistribution and use in source and binary forms, with or without\n"
@@ -361,9 +361,9 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_RASF_PATROL_SCRUB_PARAMETER",    SRC_TYPE_STRUCT},
     {"ACPI_RASF_SHARED_MEMORY",             SRC_TYPE_STRUCT},
     {"ACPI_RAS2_PARAMETER_BLOCK",           SRC_TYPE_STRUCT},
-    {"ACPI_RAS2_PATROL_SCRUB_PARAMETER",    SRC_TYPE_STRUCT},
+    {"ACPI_RAS2_PATROL_SCRUB_PARAM",        SRC_TYPE_STRUCT},
     {"ACPI_RAS2_LA2PA_TRANSLATION_PARAM",   SRC_TYPE_STRUCT},
-    {"ACPI_RAS2_SHARED_MEMORY",             SRC_TYPE_STRUCT},
+    {"ACPI_RAS2_SHMEM",                     SRC_TYPE_STRUCT},
     {"ACPI_REGION_WALK_INFO",               SRC_TYPE_STRUCT},
     {"ACPI_REPAIR_FUNCTION",                SRC_TYPE_SIMPLE},
     {"ACPI_REPAIR_INFO",                    SRC_TYPE_STRUCT},
@@ -429,6 +429,7 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_STRING",                         SRC_TYPE_SIMPLE},
     {"ACPI_STRING_TABLE",                   SRC_TYPE_STRUCT},
     {"ACPI_SUBTABLE_HEADER",                SRC_TYPE_STRUCT},
+    {"ACPI_SUBTBL_HDR_16",                  SRC_TYPE_STRUCT},
     {"ACPI_SYSTEM_INFO",                    SRC_TYPE_STRUCT},
     {"ACPI_TABLE_DESC",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_HANDLER",                  SRC_TYPE_SIMPLE},
@@ -558,6 +559,7 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_TABLE_DRTM",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_ECDT",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_EINJ",                     SRC_TYPE_STRUCT},
+    {"ACPI_TABLE_ERDT",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_ERST",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_FACS",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_FADT",                     SRC_TYPE_STRUCT},
@@ -574,6 +576,7 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_TABLE_MCHI",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_MPAM",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_MPST",                     SRC_TYPE_STRUCT},
+    {"ACPI_TABLE_MRRM",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_MSCT",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_MSDM",                     SRC_TYPE_STRUCT},
     {"ACPI_TABLE_NFIT",                     SRC_TYPE_STRUCT},
@@ -619,12 +622,14 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_AEST_MEMORY",                    SRC_TYPE_STRUCT},
     {"ACPI_AEST_NODE_INTERFACE",            SRC_TYPE_STRUCT},
     {"ACPI_AEST_NODE_INTERRUPT",            SRC_TYPE_STRUCT},
+    {"ACPI_AEST_NODE_INTERRUPT_V2",         SRC_TYPE_STRUCT},
     {"ACPI_AEST_PROCESSOR",                 SRC_TYPE_STRUCT},
     {"ACPI_AEST_PROCESSOR_CACHE",           SRC_TYPE_STRUCT},
     {"ACPI_AEST_PROCESSOR_GENERIC",         SRC_TYPE_STRUCT},
     {"ACPI_AEST_PROCESSOR_TLB",             SRC_TYPE_STRUCT},
     {"ACPI_AEST_SMMU",                      SRC_TYPE_STRUCT},
     {"ACPI_AEST_VENDOR",                    SRC_TYPE_STRUCT},
+    {"ACPI_AEST_VENDOR_V2",                 SRC_TYPE_STRUCT},
     {"ACPI_ASF_ADDRESS",                    SRC_TYPE_STRUCT},
     {"ACPI_ASF_ALERT",                      SRC_TYPE_STRUCT},
     {"ACPI_ASF_ALERT_DATA",                 SRC_TYPE_STRUCT},
@@ -654,6 +659,18 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_DRTM_VTABLE_LIST",               SRC_TYPE_STRUCT},
     {"ACPI_EINJ_ENTRY",                     SRC_TYPE_STRUCT},
     {"ACPI_EINJ_TRIGGER",                   SRC_TYPE_STRUCT},
+    {"ACPI_ERDT_RMDD",                      SRC_TYPE_STRUCT},
+    {"ACPI_ERDT_CACD",                      SRC_TYPE_STRUCT},
+    {"ACPI_ERDT_DACD",                      SRC_TYPE_STRUCT},
+    {"ACPI_ERDT_DACD_PATHS",                SRC_TYPE_STRUCT},
+    {"ACPI_ERDT_CMRC",                      SRC_TYPE_STRUCT},
+    {"ACPI_ERDT_MMRC",                      SRC_TYPE_STRUCT},
+    {"ACPI_ERDT_MARC",                      SRC_TYPE_STRUCT},
+    {"ACPI_ERDT_CARC",                      SRC_TYPE_STRUCT},
+    {"ACPI_ERDT_CMRD",                      SRC_TYPE_STRUCT},
+    {"ACPI_ERDT_IBRD",                      SRC_TYPE_STRUCT},
+    {"ACPI_ERDT_IBAD",                      SRC_TYPE_STRUCT},
+    {"ACPI_ERDT_CARD",                      SRC_TYPE_STRUCT},
     {"ACPI_ERST_ENTRY",                     SRC_TYPE_STRUCT},
     {"ACPI_ERST_INFO",                      SRC_TYPE_STRUCT},
     {"ACPI_FPDT_HEADER",                    SRC_TYPE_STRUCT},
@@ -733,6 +750,7 @@ ACPI_TYPED_IDENTIFIER_TABLE           AcpiIdentifiers[] = {
     {"ACPI_MPAM_MSC_NODE",                  SRC_TYPE_STRUCT},
     {"ACPI_MPAM_RESOURCE_LOCATOR",          SRC_TYPE_STRUCT},
     {"ACPI_MPAM_RESOURCE_NODE",             SRC_TYPE_STRUCT},
+    {"ACPI_MRRM_MEM_RANGE_ENTRY",           SRC_TYPE_STRUCT},
     {"ACPI_MPST_COMPONENT",                 SRC_TYPE_STRUCT},
     {"ACPI_MPST_DATA_HDR",                  SRC_TYPE_STRUCT},
     {"ACPI_MPST_POWER_DATA",                SRC_TYPE_STRUCT},
@@ -1134,8 +1152,8 @@ ACPI_CONVERSION_TABLE       LicenseConversionTable =
 
 ACPI_STRING_TABLE           CustomReplacements[] =
 {
-    {"(c) 1999 - 2021",     "(c) 1999 - 2024",         REPLACE_WHOLE_WORD}, /* Main ACPICA source */
-    {"(c) 2006 - 2021",     "(c) 2006 - 2023",         REPLACE_WHOLE_WORD}, /* Test suites */
+    {"(c) 1999 - 2025",     "(c) 1999 - 2025",         REPLACE_WHOLE_WORD}, /* Main ACPICA source */
+    {"(c) 2006 - 2023",     "(c) 2006 - 2025",         REPLACE_WHOLE_WORD}, /* Test suites */
 
 #if 0
     {"SUPPORT, ASSISTANCE", "SUPPORT, ASSISTANCE",     REPLACE_WHOLE_WORD}, /* Fix intel header */

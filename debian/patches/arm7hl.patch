@@ -1,3 +1,5 @@
+Add macros to support 8-bit truncation for ACPI_MOVE_* operations
+
 Index: acpica-unix-20200925/source/include/acmacros.h
 ===================================================================
 --- acpica-unix-20200925.orig/source/include/acmacros.h

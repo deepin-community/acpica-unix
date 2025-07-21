@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2023, Intel Corp.
+ * Copyright (C) 2000 - 2025, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -1105,8 +1105,10 @@ AcpiDmDumpMpam (
     ACPI_STATUS                Status;
     ACPI_MPAM_MSC_NODE         *MpamMscNode;
     ACPI_MPAM_RESOURCE_NODE    *MpamResourceNode;
+    ACPI_MPAM_FUNC_DEPS	       *MpamFunctionalDependency;
     ACPI_DMTABLE_INFO          *InfoTable;
     UINT32                     Offset = sizeof(ACPI_TABLE_HEADER);
+    UINT32		       TempOffset;
     UINT32                     MpamResourceNodeLength = 0;
 
     while (Offset < Table->Length)
@@ -1114,8 +1116,8 @@ AcpiDmDumpMpam (
         MpamMscNode = ACPI_ADD_PTR (ACPI_MPAM_MSC_NODE, Table, Offset);
 
         /* Subtable: MSC */
-        Status = AcpiDmDumpTable (MpamMscNode->Length, 0, MpamMscNode, 0,
-            AcpiDmTableInfoMpam0);
+        Status = AcpiDmDumpTable (Table->Length, Offset, MpamMscNode,
+            MpamMscNode->Length, AcpiDmTableInfoMpam0);
         if (ACPI_FAILURE (Status))
         {
             return;
@@ -1125,18 +1127,19 @@ AcpiDmDumpMpam (
         Offset += sizeof(ACPI_MPAM_MSC_NODE);
 
         /* Subtable: MSC RIS(es) */
-        for (UINT32 ResourceIdx = 0; ResourceIdx < MpamMscNode->NumResouceNodes; ResourceIdx++)
+        for (UINT32 ResourceIdx = 0; ResourceIdx < MpamMscNode->NumResourceNodes; ResourceIdx++)
         {
+	    AcpiOsPrintf ("\n");
             MpamResourceNode = ACPI_ADD_PTR (ACPI_MPAM_RESOURCE_NODE, Table, Offset);
 
             MpamResourceNodeLength = sizeof(ACPI_MPAM_RESOURCE_NODE) +
                 MpamResourceNode->NumFunctionalDeps * sizeof(ACPI_MPAM_FUNC_DEPS);
-
+	    TempOffset = Offset;
             Offset += MpamResourceNodeLength;
 
             /* Subtable: MSC RIS */
-            Status = AcpiDmDumpTable (MpamResourceNodeLength, 0, MpamResourceNode, 0,
-                AcpiDmTableInfoMpam1);
+	    Status = AcpiDmDumpTable (Table->Length, TempOffset, MpamResourceNode,
+		sizeof(ACPI_MPAM_RESOURCE_NODE), AcpiDmTableInfoMpam1);
             if (ACPI_FAILURE (Status))
             {
                 return;
@@ -1171,30 +1174,40 @@ AcpiDmDumpMpam (
             }
 
             /* Subtable: MSC Resource Locator(s) */
-            Status = AcpiDmDumpTable (sizeof(ACPI_MPAM_RESOURCE_LOCATOR), 0,
-                &MpamResourceNode->Locator, 0, InfoTable);
+	    TempOffset += ACPI_OFFSET(ACPI_MPAM_RESOURCE_NODE, Locator);
+	    Status = AcpiDmDumpTable (Table->Length, TempOffset, &MpamResourceNode->Locator,
+		sizeof(ACPI_MPAM_RESOURCE_LOCATOR), InfoTable);
             if (ACPI_FAILURE (Status))
             {
                 return;
             }
 
             /* Get the number of functional dependencies of an RIS */
-            Status = AcpiDmDumpTable (sizeof(UINT32), 0, &MpamResourceNode->NumFunctionalDeps, 0,
-                AcpiDmTableInfoMpam1Deps);
+	    TempOffset += sizeof(ACPI_MPAM_RESOURCE_LOCATOR);
+            Status = AcpiDmDumpTable (Table->Length, TempOffset, &MpamResourceNode->NumFunctionalDeps,
+		sizeof(UINT32), AcpiDmTableInfoMpam1Deps);
             if (ACPI_FAILURE (Status))
             {
                 return;
             }
 
+	    TempOffset += sizeof(UINT32);
+	    MpamFunctionalDependency = ACPI_ADD_PTR (ACPI_MPAM_FUNC_DEPS, MpamResourceNode,
+		sizeof(ACPI_MPAM_RESOURCE_NODE));
             /* Subtable: MSC functional dependencies */
             for (UINT32 funcDep = 0; funcDep < MpamResourceNode->NumFunctionalDeps; funcDep++)
             {
+		AcpiOsPrintf ("\n");
                 Status = AcpiDmDumpTable (sizeof(ACPI_MPAM_FUNC_DEPS), 0,
                     &MpamResourceNode->NumFunctionalDeps, 0, AcpiDmTableInfoMpam2);
+		Status = AcpiDmDumpTable (Table->Length, TempOffset, MpamFunctionalDependency,
+		    sizeof(ACPI_MPAM_FUNC_DEPS), AcpiDmTableInfoMpam2);
                 if (ACPI_FAILURE (Status))
                 {
                     return;
                 }
+		TempOffset += sizeof(ACPI_MPAM_FUNC_DEPS);
+		MpamFunctionalDependency++;
             }
 
             AcpiOsPrintf ("\n\n");
@@ -1346,6 +1359,54 @@ AcpiDmDumpMpst (
         Subtable2++;
         SubtableCount--;
         Offset += sizeof (ACPI_MPST_POWER_DATA);
+    }
+}
+
+
+/*******************************************************************************
+ *
+ * FUNCTION:    AcpiDmDumpMrrm
+ *
+ * PARAMETERS:  Table               - A MRRM table
+ *
+ * RETURN:      None
+ *
+ * DESCRIPTION: Format the contents of a MRRM
+ *
+ ******************************************************************************/
+
+void
+AcpiDmDumpMrrm (
+    ACPI_TABLE_HEADER       *Table)
+{
+    ACPI_STATUS                      Status;
+    ACPI_MRRM_MEM_RANGE_ENTRY        *Subtable;
+    UINT16                           Offset = sizeof (ACPI_TABLE_MRRM);
+
+    /* Main table */
+
+    Status = AcpiDmDumpTable (Table->Length, 0, Table, 0, AcpiDmTableInfoMrrm);
+    if (ACPI_FAILURE (Status))
+    {
+        return;
+    }
+
+    /* Subtables (all are same type) */
+
+    Subtable = ACPI_ADD_PTR (ACPI_MRRM_MEM_RANGE_ENTRY, Table, Offset);
+    while (Offset < Table->Length)
+    {
+        AcpiOsPrintf ("\n");
+        Status = AcpiDmDumpTable (Table->Length, Offset, Subtable,
+            Subtable->Header.Length, AcpiDmTableInfoMrrm0);
+        if (ACPI_FAILURE (Status))
+        {
+            return;
+        }
+
+        Offset += Subtable->Header.Length;
+        Subtable = ACPI_ADD_PTR (ACPI_MRRM_MEM_RANGE_ENTRY, Subtable,
+           Subtable->Header.Length);
     }
 }
 
@@ -1773,6 +1834,7 @@ AcpiDmDumpPhat (
     ACPI_DMTABLE_INFO       *InfoTable;
     ACPI_PHAT_HEADER        *Subtable;
     ACPI_PHAT_VERSION_DATA  *VersionData;
+    ACPI_PHAT_HEALTH_DATA   *HealthData;
     UINT32                  RecordCount;
     UINT32                  Length = Table->Length;
     UINT32                  Offset = sizeof (ACPI_TABLE_PHAT);
@@ -1781,7 +1843,6 @@ AcpiDmDumpPhat (
     UINT32                  PathLength;
     UINT32                  VendorLength;
     UINT16                  RecordType;
-    const wchar_t           *WideString;
 
 
     Subtable = ACPI_ADD_PTR (ACPI_PHAT_HEADER, Table, sizeof (ACPI_TABLE_PHAT));
@@ -1806,13 +1867,13 @@ AcpiDmDumpPhat (
         case ACPI_PHAT_TYPE_FW_VERSION_DATA:
 
             InfoTable = AcpiDmTableInfoPhat0;
-            SubtableLength = Offset += sizeof (ACPI_PHAT_VERSION_DATA);
+            SubtableLength = sizeof (ACPI_PHAT_VERSION_DATA);
             break;
 
         case ACPI_PHAT_TYPE_FW_HEALTH_DATA:
 
             InfoTable = AcpiDmTableInfoPhat1;
-            SubtableLength = Offset += sizeof (ACPI_PHAT_TYPE_FW_HEALTH_DATA);
+            SubtableLength = sizeof (ACPI_PHAT_HEALTH_DATA);
             break;
 
         default:
@@ -1823,12 +1884,14 @@ AcpiDmDumpPhat (
             return;
         }
 
-        Status = AcpiDmDumpTable (Length, SubtableLength, Subtable,
+        Status = AcpiDmDumpTable (Length, Offset, Subtable,
             SubtableLength, InfoTable);
         if (ACPI_FAILURE (Status))
         {
             return;
         }
+
+        Offset += SubtableLength;
 
         OriginalOffset = Offset;
         switch (Subtable->Type)
@@ -1885,39 +1948,55 @@ AcpiDmDumpPhat (
 
         case ACPI_PHAT_TYPE_FW_HEALTH_DATA:
 
-            /*
-             * Get the length of the Device Path (UEFI wide string).
-             * Include the wide null terminator (+2),
-             */
-            WideString = ACPI_ADD_PTR (wchar_t, Subtable,
-                sizeof (ACPI_PHAT_HEALTH_DATA));
+            HealthData = ACPI_CAST_PTR (ACPI_PHAT_HEALTH_DATA, Subtable);
+            PathLength = Subtable->Length - sizeof (ACPI_PHAT_HEALTH_DATA);
+            VendorLength = 0;
 
-            PathLength = (wcslen (WideString) * 2) + 2;
-            DbgPrint (ASL_DEBUG_OUTPUT, "/* %u, PathLength %X, Offset %X, Table->Length %X */\n",
-                __LINE__, PathLength, Offset, Length);
-
-            Status = AcpiDmDumpTable (Length, Offset,
-                ACPI_ADD_PTR (ACPI_PHAT_HEADER, Subtable, sizeof (ACPI_PHAT_HEALTH_DATA)),
-                PathLength, AcpiDmTableInfoPhat1a);
-            Offset += PathLength;
-            if (ACPI_FAILURE (Status))
+            /* An offset of 0 should be ignored */
+            if (HealthData->DeviceSpecificOffset != 0)
             {
-                return;
+                if (HealthData->DeviceSpecificOffset > Subtable->Length)
+                {
+                    AcpiOsPrintf ("\n/* Warning: Oversized device-specific data offset %X */\n"
+                        "/* (maximum is %X -- ignoring device-specific data) */\n",
+                        HealthData->DeviceSpecificOffset, Subtable->Length);
+                }
+                else if (HealthData->DeviceSpecificOffset < sizeof (ACPI_PHAT_HEALTH_DATA))
+                {
+                    AcpiOsPrintf ("\n/* Warning: Undersized device-specific data offset %X */\n"
+                        "/* (minimum is %X -- ignoring device-specific data) */\n",
+                        HealthData->DeviceSpecificOffset, (UINT8) sizeof (ACPI_PHAT_HEALTH_DATA));
+                }
+                else
+                {
+                    PathLength = HealthData->DeviceSpecificOffset - sizeof (ACPI_PHAT_HEALTH_DATA);
+                    VendorLength = Subtable->Length - HealthData->DeviceSpecificOffset;
+                }
             }
 
-            /* Get Device-Specific Data - length of which is the remaining subtable length. */
+            DbgPrint (ASL_DEBUG_OUTPUT, "/* %u, PathLength %X, Offset %X */\n",
+                __LINE__, PathLength, Offset);
 
-            VendorLength =
-                Subtable->Length - sizeof (ACPI_PHAT_HEALTH_DATA) - PathLength;
-            DbgPrint (ASL_DEBUG_OUTPUT, "%u, Subtable->Length %X, VendorLength %X, Offset %X PathLength: %X\n",
-                __LINE__, Subtable->Length, VendorLength, Offset, PathLength);
+            if (PathLength)
+            {
+                Status = AcpiDmDumpTable (Length, Offset,
+                    ACPI_ADD_PTR (ACPI_PHAT_HEADER, Subtable, sizeof (ACPI_PHAT_HEALTH_DATA)),
+                    PathLength, AcpiDmTableInfoPhat1a);
+                if (ACPI_FAILURE (Status))
+                {
+                    return;
+                }
+
+                Offset += PathLength;
+            }
+
+            DbgPrint (ASL_DEBUG_OUTPUT, "/* %u, VendorLength %X, Offset %X */\n",
+                __LINE__, VendorLength, Offset);
 
             if (VendorLength)
             {
-                /* Point past the Device Path, Compile the Device-Specific Data */
-
                 Status = AcpiDmDumpTable (Length, Offset,
-                    ACPI_ADD_PTR (ACPI_PHAT_HEADER, Subtable, sizeof (ACPI_PHAT_HEALTH_DATA) + PathLength),
+                    ACPI_ADD_PTR (ACPI_PHAT_HEADER, Subtable, HealthData->DeviceSpecificOffset),
                     VendorLength, AcpiDmTableInfoPhat1b);
                 if (ACPI_FAILURE (Status))
                 {
@@ -2467,6 +2546,138 @@ AcpiDmDumpRhct (
             RhctMmuNode = ACPI_ADD_PTR (ACPI_RHCT_MMU_NODE, Subtable, SubtableOffset);
             Status = AcpiDmDumpTable (Table->Length, Offset + SubtableOffset,
                                       RhctMmuNode, 2, AcpiDmTableInfoRhctMmu1);
+            break;
+
+        default:
+            break;
+        }
+
+        /* Point to next subtable */
+
+        Offset += Subtable->Length;
+    }
+}
+
+/*******************************************************************************
+ *
+ * FUNCTION:    AcpiDmDumpRimt
+ *
+ * PARAMETERS:  Table               - A RIMT table
+ *
+ * RETURN:      None
+ *
+ * DESCRIPTION: Format the contents of a RIMT.
+ *
+ ******************************************************************************/
+
+void
+AcpiDmDumpRimt (
+    ACPI_TABLE_HEADER       *Table)
+{
+    ACPI_RIMT_PLATFORM_DEVICE  *PlatNode;
+    ACPI_RIMT_PCIE_RC          *PcieNode;
+    ACPI_RIMT_NODE             *Subtable;
+    ACPI_STATUS                Status;
+    UINT32                     Length = Table->Length;
+    UINT16                     SubtableOffset;
+    UINT32                     NodeOffset;
+    UINT16                     i;
+    UINT32                     Offset = sizeof (ACPI_TABLE_RIMT);
+
+    /* Main table */
+
+    Status = AcpiDmDumpTable (Length, 0, Table, 0, AcpiDmTableInfoRimt);
+    if (ACPI_FAILURE (Status))
+    {
+        return;
+    }
+
+    /* Subtables */
+
+    while (Offset < Table->Length)
+    {
+        AcpiOsPrintf ("\n");
+
+        /* Common subtable header */
+
+        Subtable = ACPI_ADD_PTR (ACPI_RIMT_NODE, Table, Offset);
+        if (Subtable->Length < sizeof (ACPI_RIMT_NODE))
+        {
+            AcpiOsPrintf ("Invalid subtable length\n");
+            return;
+        }
+        Status = AcpiDmDumpTable (Table->Length, Offset, Subtable,
+            Subtable->Length, AcpiDmTableInfoRimtNodeHdr);
+        if (ACPI_FAILURE (Status))
+        {
+            return;
+        }
+
+        Length = sizeof (ACPI_RIMT_NODE);
+
+        if (Subtable->Length < Length)
+        {
+            AcpiOsPrintf ("Invalid subtable length\n");
+            return;
+        }
+        SubtableOffset = (UINT16) Length;
+
+        switch (Subtable->Type)
+        {
+        case ACPI_RIMT_NODE_TYPE_IOMMU:
+            Status = AcpiDmDumpTable (Table->Length, Offset + SubtableOffset,
+                    ACPI_ADD_PTR (ACPI_RIMT_IOMMU, Subtable, SubtableOffset),
+                    sizeof (ACPI_RIMT_IOMMU), AcpiDmTableInfoRimtIommu);
+
+            break;
+
+        case ACPI_RIMT_NODE_TYPE_PCIE_ROOT_COMPLEX:
+            Status = AcpiDmDumpTable (Table->Length, Offset + SubtableOffset,
+                    ACPI_ADD_PTR (ACPI_RIMT_PCIE_RC, Subtable, SubtableOffset),
+                    sizeof (ACPI_RIMT_PCIE_RC), AcpiDmTableInfoRimtPcieRc);
+
+            PcieNode = ACPI_ADD_PTR (ACPI_RIMT_PCIE_RC, Subtable, SubtableOffset);
+
+            /* Dump the ID mappings */
+            NodeOffset = PcieNode->IdMappingOffset;
+            for (i = 0; i < PcieNode->NumIdMappings; i++)
+            {
+                AcpiOsPrintf ("\n");
+                Length = sizeof (ACPI_RIMT_ID_MAPPING);
+                Status = AcpiDmDumpTable (Table->Length, Offset + NodeOffset,
+                    ACPI_ADD_PTR (ACPI_RIMT_ID_MAPPING, Subtable, NodeOffset),
+                    Length, AcpiDmTableInfoRimtIdMapping);
+                if (ACPI_FAILURE (Status))
+                {
+                    return;
+                }
+
+                NodeOffset += Length;
+            }
+            break;
+
+        case ACPI_RIMT_NODE_TYPE_PLAT_DEVICE:
+            Status = AcpiDmDumpTable (Table->Length, Offset + SubtableOffset,
+                    ACPI_ADD_PTR (ACPI_RIMT_PLATFORM_DEVICE, Subtable, SubtableOffset),
+                    sizeof (ACPI_RIMT_PLATFORM_DEVICE), AcpiDmTableInfoRimtPlatDev);
+            PlatNode = ACPI_ADD_PTR (ACPI_RIMT_PLATFORM_DEVICE, Subtable, SubtableOffset);
+
+            /* Dump the ID mappings */
+            NodeOffset = PlatNode->IdMappingOffset;
+            for (i = 0; i < PlatNode->NumIdMappings; i++)
+            {
+                AcpiOsPrintf ("\n");
+                Length = sizeof (ACPI_RIMT_ID_MAPPING);
+                Status = AcpiDmDumpTable (Table->Length, Offset + NodeOffset,
+                    ACPI_ADD_PTR (ACPI_RIMT_ID_MAPPING, Subtable, NodeOffset),
+                    Length, AcpiDmTableInfoRimtIdMapping);
+                if (ACPI_FAILURE (Status))
+                {
+                    return;
+                }
+
+                NodeOffset += Length;
+            }
             break;
 
         default:

@@ -1,3 +1,5 @@
+Use dynamic memory formatting (asprintf + free) for ASL compiler warnings/errors to avoid fixed buffer usage.
+
 Index: acpica-unix-20221020/source/compiler/aslanalyze.c
 ===================================================================
 --- acpica-unix-20221020.orig/source/compiler/aslanalyze.c

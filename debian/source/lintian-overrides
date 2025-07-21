@@ -2,3 +2,6 @@ acpica-unix source: source-is-missing [tests/aslts/src/runtime/collections/Ident
 acpica-unix source: source-is-missing [tests/aslts/src/runtime/collections/Identity2MS/abbu/UTILITY/1_WARNING.HTM]
 acpica-unix source: source-is-missing [tests/aslts/src/runtime/collections/Identity2MS/abbu/UTILITY/2_WARNING.HTM]
 acpica-unix source: source-is-missing [tests/aslts/src/runtime/collections/Identity2MS/abbu/UTILITY/3_WARNING.HTM]
+# Upstream does not provide OpenPGP signatures for release tarballs.
+acpica-unix source: debian-watch-does-not-check-openpgp-signature
+

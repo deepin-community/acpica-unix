@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2023, Intel Corp.
+ * Copyright (C) 2000 - 2025, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -111,6 +111,7 @@ const AH_TABLE      AcpiGbl_SupportedTables[] =
     {ACPI_SIG_DSDT, "Differentiated System Description Table (AML table)"},
     {ACPI_SIG_ECDT, "Embedded Controller Boot Resources Table"},
     {ACPI_SIG_EINJ, "Error Injection Table"},
+    {ACPI_SIG_ERDT, "Enhanced Resource Director Technology Table"},
     {ACPI_SIG_ERST, "Error Record Serialization Table"},
     {ACPI_SIG_FACS, "Firmware ACPI Control Structure"},
     {ACPI_SIG_FADT, "Fixed ACPI Description Table (FADT)"},
@@ -127,6 +128,7 @@ const AH_TABLE      AcpiGbl_SupportedTables[] =
     {ACPI_SIG_MCHI, "Management Controller Host Interface Table"},
     {ACPI_SIG_MPAM, "Memory System Resource Partitioning and Monitoring Table"},
     {ACPI_SIG_MPST, "Memory Power State Table"},
+    {ACPI_SIG_MRRM, "Memory Range and Region Mapping Table"},
     {ACPI_SIG_MSCT, "Maximum System Characteristics Table"},
     {ACPI_SIG_MSDM, "Microsoft Data Management Table"},
     {ACPI_SIG_NFIT, "NVDIMM Firmware Interface Table"},
