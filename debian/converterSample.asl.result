@@ -43,7 +43,7 @@ Remark   2089 -  Object is not referenced ^  (Name [A1__] is within a method [SC
 
 Intel ACPI Component Architecture
 ASL+ Optimizing Compiler/Disassembler version VVVVVVVV
-Copyright (c) 2000 - 2023 Intel Corporation
+Copyright (c) 2000 - 2025 Intel Corporation
 
 Ignoring all errors, forcing AML file generation
 

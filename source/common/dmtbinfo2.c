@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2023, Intel Corp.
+ * Copyright (C) 2000 - 2025, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -205,6 +205,7 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoIortAcc[] =
     {ACPI_DMT_UINT8,    ACPI_IORTA_OFFSET (MemoryFlags),            "Memory Flags (decoded below)", 0},
     {ACPI_DMT_FLAG0,    ACPI_IORTA_FLAG_OFFSET (MemoryFlags, 0),    "Coherency", 0},
     {ACPI_DMT_FLAG1,    ACPI_IORTA_FLAG_OFFSET (MemoryFlags, 0),    "Device Attribute", 0},
+    {ACPI_DMT_FLAG2,    ACPI_IORTA_FLAG_OFFSET (MemoryFlags, 0),    "Ensured Coherency of Accesses", 0},
     ACPI_DMT_TERMINATOR
 };
 
@@ -1122,7 +1123,7 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoMpam0[] =
     {ACPI_DMT_UINT32,   ACPI_MPAM0_OFFSET (MaxNrdyUsec),                 "MAX_NRDY_USEC", 0},
     {ACPI_DMT_NAME8,    ACPI_MPAM0_OFFSET (HardwareIdLinkedDevice),      "Hardware ID of linked device", 0},
     {ACPI_DMT_UINT32,   ACPI_MPAM0_OFFSET (InstanceIdLinkedDevice),      "Instance ID of linked device", 0},
-    {ACPI_DMT_UINT32,   ACPI_MPAM0_OFFSET (NumResouceNodes),             "Number of resource nodes", 0},
+    {ACPI_DMT_UINT32,   ACPI_MPAM0_OFFSET (NumResourceNodes),            "Number of resource nodes", 0},
 
     ACPI_DMT_TERMINATOR
 };
@@ -1153,6 +1154,7 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoMpam1A[] =
 {
     {ACPI_DMT_UINT64,   ACPI_MPAM1A_OFFSET (CacheReference),                "Cache reference", 0},
     {ACPI_DMT_UINT32,   ACPI_MPAM1A_OFFSET (Reserved),                      "Reserved", 0},
+    ACPI_DMT_TERMINATOR
 };
 
 /* 1B: MPAM Memory locator descriptor. A subtable of RIS.
@@ -1162,6 +1164,7 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoMpam1B[] =
 {
     {ACPI_DMT_UINT64,   ACPI_MPAM1B_OFFSET (ProximityDomain),               "Proximity domain", 0},
     {ACPI_DMT_UINT32,   ACPI_MPAM1B_OFFSET (Reserved),                      "Reserved", 0},
+    ACPI_DMT_TERMINATOR
 };
 
 /* 1C: MPAM SMMU locator descriptor. A subtable of RIS.
@@ -1171,6 +1174,7 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoMpam1C[] =
 {
     {ACPI_DMT_UINT64,   ACPI_MPAM1C_OFFSET (SmmuInterface),                 "SMMU Interface", 0},
     {ACPI_DMT_UINT32,   ACPI_MPAM1C_OFFSET (Reserved),                      "Reserved", 0},
+    ACPI_DMT_TERMINATOR
 };
 
 /* 1D: MPAM Memory-side cache locator descriptor. A subtable of RIS.
@@ -1178,9 +1182,10 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoMpam1C[] =
  */
 ACPI_DMTABLE_INFO           AcpiDmTableInfoMpam1D[] =
 {
-    {ACPI_DMT_UINT56,   ACPI_MPAM1D_OFFSET (Level),                         "Reserved", 0},
+    {ACPI_DMT_UINT56,   ACPI_MPAM1D_OFFSET (Reserved),                      "Reserved", 0},
     {ACPI_DMT_UINT8,    ACPI_MPAM1D_OFFSET (Level),                         "Level", 0},
     {ACPI_DMT_UINT32,   ACPI_MPAM1D_OFFSET (Reference),                     "Reference", 0},
+    ACPI_DMT_TERMINATOR
 };
 
 /* 1E: MPAM ACPI device locator descriptor. A subtable of RIS.
@@ -1190,6 +1195,7 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoMpam1E[] =
 {
     {ACPI_DMT_UINT64,   ACPI_MPAM1E_OFFSET (AcpiHwId),                      "ACPI Hardware ID", 0},
     {ACPI_DMT_UINT32,   ACPI_MPAM1E_OFFSET (AcpiUniqueId),                  "ACPI Unique ID", 0},
+    ACPI_DMT_TERMINATOR
 };
 
 /* 1F: MPAM Interconnect locator descriptor. A subtable of RIS.
@@ -1199,6 +1205,7 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoMpam1F[] =
 {
     {ACPI_DMT_UINT64,   ACPI_MPAM1F_OFFSET (InterConnectDescTblOff),        "Interconnect descriptor table offset", 0},
     {ACPI_DMT_UINT32,   ACPI_MPAM1F_OFFSET (Reserved),                      "Reserved", 0},
+    ACPI_DMT_TERMINATOR
 };
 
 /* 1G: MPAM Locator structure.
@@ -1208,6 +1215,7 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoMpam1G[] =
 {
     {ACPI_DMT_UINT64,   ACPI_MPAM1G_OFFSET (Descriptor1),                   "Descriptor1", 0},
     {ACPI_DMT_UINT32,   ACPI_MPAM1G_OFFSET (Descriptor2),                   "Descriptor2", 0},
+    ACPI_DMT_TERMINATOR
 };
 
 /* 2: MPAM Functional dependency descriptor.
@@ -1217,6 +1225,7 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoMpam2[] =
 {
     {ACPI_DMT_UINT32,   ACPI_MPAM2_OFFSET (Producer),                       "Producer", 0},
     {ACPI_DMT_UINT32,   ACPI_MPAM2_OFFSET (Reserved),                       "Reserved", 0},
+    ACPI_DMT_TERMINATOR
 };
 
 
@@ -1297,6 +1306,39 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoMpst2[] =
     {ACPI_DMT_UINT32,   ACPI_MPST2_OFFSET (PowerSaving),            "Power Saving", 0},
     {ACPI_DMT_UINT64,   ACPI_MPST2_OFFSET (ExitLatency),            "Exit Latency", 0},
     {ACPI_DMT_UINT64,   ACPI_MPST2_OFFSET (Reserved2),              "Reserved", 0},
+    ACPI_DMT_TERMINATOR
+};
+
+
+/*******************************************************************************
+ *
+ * MRRM - Memory Range and Region Mapping Table
+ *
+ ******************************************************************************/
+
+ACPI_DMTABLE_INFO           AcpiDmTableInfoMrrm[] =
+{
+    {ACPI_DMT_UINT8,    ACPI_MRRM_OFFSET (MaxMemRegion),            "Max Memory Regions", 0},
+    {ACPI_DMT_UINT8,    ACPI_MRRM_OFFSET (Flags),                   "Region Assignment Type", 0},
+    {ACPI_DMT_BUF26,    ACPI_MRRM_OFFSET (Reserved),                "Reserved", 0},
+    ACPI_DMT_TERMINATOR
+};
+
+/* MRRM Subtable */
+
+/* 0: Memory Range entry */
+
+ACPI_DMTABLE_INFO           AcpiDmTableInfoMrrm0[] =
+{
+    {ACPI_DMT_UINT16,   ACPI_MRRM0_OFFSET (Header.Type),            "Memory Range", 0},
+    {ACPI_DMT_UINT16,   ACPI_MRRM0_OFFSET (Header.Length),          "Length", DT_LENGTH},
+    {ACPI_DMT_UINT32,   ACPI_MRRM0_OFFSET (Reserved0),              "Reserved", 0},
+    {ACPI_DMT_UINT64,   ACPI_MRRM0_OFFSET (AddrBase),               "System Address Base", 0},
+    {ACPI_DMT_UINT64,   ACPI_MRRM0_OFFSET (AddrLen),                "System Address Length", 0},
+    {ACPI_DMT_UINT16,   ACPI_MRRM0_OFFSET (RegionIdFlags),          "Region Valid Flags", 0},
+    {ACPI_DMT_UINT8,    ACPI_MRRM0_OFFSET (LocalRegionId),          "Static Local Region ID", 0},
+    {ACPI_DMT_UINT8,    ACPI_MRRM0_OFFSET (RemoteRegionId),         "Static Remote Region ID", 0},
+    {ACPI_DMT_UINT32,   ACPI_MRRM0_OFFSET (Reserved1),              "Reserved", 0},
     ACPI_DMT_TERMINATOR
 };
 
@@ -2086,6 +2128,97 @@ ACPI_DMTABLE_INFO           AcpiDmTableInfoRhctHartInfo1[] =
 ACPI_DMTABLE_INFO           AcpiDmTableInfoRhctHartInfo2[] =
 {
     {ACPI_DMT_UINT32,   0,                                    "Nodes", DT_OPTIONAL},
+    ACPI_DMT_TERMINATOR
+};
+
+
+/*******************************************************************************
+ *
+ * RIMT - RISC-V IO Mapping Table
+ *
+ * https://github.com/riscv-non-isa/riscv-acpi-rimt
+ *
+ ******************************************************************************/
+
+ACPI_DMTABLE_INFO           AcpiDmTableInfoRimt[] =
+{
+    {ACPI_DMT_UINT32,   ACPI_RIMT_OFFSET (NumNodes),              "Number of RIMT Nodes", 0},
+    {ACPI_DMT_UINT32,   ACPI_RIMT_OFFSET (NodeOffset),            "Offset to RIMT Node Array", 0},
+    {ACPI_DMT_UINT32,   ACPI_RIMT_OFFSET (Reserved),              "Reserved", 0},
+    ACPI_DMT_TERMINATOR
+};
+
+
+/* Common Subtable header (one per Subtable) */
+
+ACPI_DMTABLE_INFO           AcpiDmTableInfoRimtNodeHdr[] =
+{
+    {ACPI_DMT_UINT8,     ACPI_RIMTH_OFFSET (Type),                "Type", 0},
+    {ACPI_DMT_UINT8,     ACPI_RIMTH_OFFSET (Revision),            "Revision", 0},
+    {ACPI_DMT_UINT16,    ACPI_RIMTH_OFFSET (Length),              "Length", 0},
+    {ACPI_DMT_UINT16,    ACPI_RIMTH_OFFSET (Reserved),            "Reserved", 0},
+    {ACPI_DMT_UINT16,    ACPI_RIMTH_OFFSET (Id),                  "ID", 0},
+    ACPI_DMT_TERMINATOR
+};
+
+/* 0: IOMMU Node type */
+
+ACPI_DMTABLE_INFO           AcpiDmTableInfoRimtIommu[] =
+{
+    {ACPI_DMT_NAME8,    ACPI_RIMTI_OFFSET (HardwareId),           "Hardware ID", 0},
+    {ACPI_DMT_UINT64,   ACPI_RIMTI_OFFSET (BaseAddress),          "Base Address", 0},
+    {ACPI_DMT_UINT32,   ACPI_RIMTI_OFFSET (Flags),                "Flags", 0},
+    {ACPI_DMT_UINT32,   ACPI_RIMTI_OFFSET (ProximityDomain),      "Proximity Domain", 0},
+    {ACPI_DMT_UINT16,   ACPI_RIMTI_OFFSET (PcieSegmentNumber),    "PCIe Segment number", 0},
+    {ACPI_DMT_UINT16,   ACPI_RIMTI_OFFSET (PcieBdf),              "PCIe B/D/F", 0},
+    {ACPI_DMT_UINT16,   ACPI_RIMTI_OFFSET (NumInterruptWires),    "Number of interrupt wires", 0},
+    {ACPI_DMT_UINT16,   ACPI_RIMTI_OFFSET (InterruptWireOffset),  "Interrupt wire array offset", 0},
+    ACPI_DMT_TERMINATOR
+};
+
+
+ACPI_DMTABLE_INFO           AcpiDmTableInfoRimtIommuWire[] =
+{
+    {ACPI_DMT_UINT32,   ACPI_RIMTW_OFFSET (IrqNum),               "Interrupt Number", 0},
+    {ACPI_DMT_UINT32,   ACPI_RIMTW_OFFSET (Flags),                "Flags", 0},
+    ACPI_DMT_TERMINATOR
+};
+
+/* 1: PCIE Root Complex Node type */
+
+ACPI_DMTABLE_INFO           AcpiDmTableInfoRimtPcieRc[] =
+{
+    {ACPI_DMT_UINT32,   ACPI_RIMTP_OFFSET (Flags),               "Flags", 0},
+    {ACPI_DMT_UINT16,   ACPI_RIMTP_OFFSET (Reserved),            "Reserved", 0},
+    {ACPI_DMT_UINT16,   ACPI_RIMTP_OFFSET (PcieSegmentNumber),   "PCIe Segment number", 0},
+    {ACPI_DMT_UINT16,   ACPI_RIMTP_OFFSET (IdMappingOffset),     "ID mapping array offset", 0},
+    {ACPI_DMT_UINT16,   ACPI_RIMTP_OFFSET (NumIdMappings),       "Number of ID mappings", 0},
+    ACPI_DMT_TERMINATOR
+};
+
+ACPI_DMTABLE_INFO           AcpiDmTableInfoRimtIdMapping[] =
+{
+    {ACPI_DMT_UINT32,   ACPI_RIMTM_OFFSET (SourceIdBase),        "Source ID Base", 0},
+    {ACPI_DMT_UINT32,   ACPI_RIMTM_OFFSET (NumIds),              "Number of IDs", 0},
+    {ACPI_DMT_UINT32,   ACPI_RIMTM_OFFSET (DestIdBase),          "Destination Device ID Base", 0},
+    {ACPI_DMT_UINT32,   ACPI_RIMTM_OFFSET (DestOffset),          "Destination IOMMU Offset", 0},
+    {ACPI_DMT_UINT32,   ACPI_RIMTM_OFFSET (Flags),               "Flags", 0},
+    ACPI_DMT_TERMINATOR
+};
+
+/* 2: Platform Device Node type */
+
+ACPI_DMTABLE_INFO           AcpiDmTableInfoRimtPlatDev[] =
+{
+    {ACPI_DMT_UINT16,   ACPI_RIMTN_OFFSET (IdMappingOffset),     "ID mapping array offset", 0},
+    {ACPI_DMT_UINT16,   ACPI_RIMTN_OFFSET (NumIdMappings),       "Number of ID mappings", 0},
+    {ACPI_DMT_STRING,   ACPI_RIMTN_OFFSET (DeviceName[0]),       "Device Object Name", 0},
+    ACPI_DMT_TERMINATOR
+};
+
+ACPI_DMTABLE_INFO           AcpiDmTableInfoRimtPlatDevPad[] =
+{
+    {ACPI_DMT_RAW_BUFFER, 0,                                     "Padding", DT_OPTIONAL},
     ACPI_DMT_TERMINATOR
 };
 

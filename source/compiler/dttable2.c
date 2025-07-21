@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2023, Intel Corp.
+ * Copyright (C) 2000 - 2025, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -442,7 +442,7 @@ DtCompileMpam (
         RisLength = 0;
 
         /* Iterate over RIS subtables per MSC node */
-        for (UINT32 ris = 0; ris < MpamMscNode->NumResouceNodes; ris++)
+        for (UINT32 ris = 0; ris < MpamMscNode->NumResourceNodes; ris++)
         {
             /* Compile RIS subtable */
             Status = DtCompileTable (PFieldList, AcpiDmTableInfoMpam1,
@@ -676,6 +676,57 @@ DtCompileMpst (
     }
 
     DtPopSubtable ();
+    return (AE_OK);
+}
+
+
+/******************************************************************************
+ *
+ * FUNCTION:    DtCompileMrrm
+ *
+ * PARAMETERS:  List                - Current field list pointer
+ *
+ * RETURN:      Status
+ *
+ * DESCRIPTION: Compile MRRM.
+ *
+ *****************************************************************************/
+
+ACPI_STATUS
+DtCompileMrrm (
+    void                    **List)
+{
+    ACPI_STATUS             Status;
+    DT_SUBTABLE             *Subtable;
+    DT_SUBTABLE             *ParentTable;
+    DT_FIELD                **PFieldList = (DT_FIELD **) List;
+
+    /* Main table */
+
+    Status = DtCompileTable (PFieldList, AcpiDmTableInfoMrrm,
+        &Subtable);
+    if (ACPI_FAILURE (Status))
+    {
+        return (Status);
+    }
+
+    ParentTable = DtPeekSubtable ();
+    DtInsertSubtable (ParentTable, Subtable);
+
+    /* Subtables (all are same type) */
+
+    while (*PFieldList)
+    {
+        Status = DtCompileTable (PFieldList, AcpiDmTableInfoMrrm0,
+            &Subtable);
+        if (ACPI_FAILURE (Status))
+        {
+            return (Status);
+        }
+
+        DtInsertSubtable (ParentTable, Subtable);
+    }
+
     return (AE_OK);
 }
 

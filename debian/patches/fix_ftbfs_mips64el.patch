@@ -1,7 +1,9 @@
-Index: acpica-unix-20230628/source/include/platform/aclinux.h
+Add __mips64 support for ACPI_MACHINE_WIDTH 64-bit configuration.
+
+Index: acpica-unix-20240927/source/include/platform/aclinux.h
 ===================================================================
---- acpica-unix-20230628.orig/source/include/platform/aclinux.h
-+++ acpica-unix-20230628/source/include/platform/aclinux.h
+--- acpica-unix-20240927.orig/source/include/platform/aclinux.h
++++ acpica-unix-20240927/source/include/platform/aclinux.h
 @@ -225,7 +225,7 @@
  
  #if defined(__ia64__)    || (defined(__x86_64__) && !defined(__ILP32__)) ||\

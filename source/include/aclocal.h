@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2023, Intel Corp.
+ * Copyright (C) 2000 - 2025, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -372,7 +372,7 @@ ACPI_STATUS (*ACPI_INTERNAL_METHOD) (
  */
 typedef struct acpi_name_info
 {
-    char                        Name[ACPI_NAMESEG_SIZE];
+    char                        Name[ACPI_NAMESEG_SIZE] ACPI_NONSTRING;
     UINT16                      ArgumentList;
     UINT8                       ExpectedBtypes;
 
@@ -460,7 +460,7 @@ typedef ACPI_STATUS (*ACPI_OBJECT_CONVERTER) (
 
 typedef struct acpi_simple_repair_info
 {
-    char                        Name[ACPI_NAMESEG_SIZE];
+    char                        Name[ACPI_NAMESEG_SIZE] ACPI_NONSTRING;
     UINT32                      UnexpectedBtypes;
     UINT32                      PackageIndex;
     ACPI_OBJECT_CONVERTER       ObjectConverter;
@@ -1303,6 +1303,8 @@ typedef struct acpi_port_info
 #define ACPI_ADDRESS_TYPE_MEMORY_RANGE          0
 #define ACPI_ADDRESS_TYPE_IO_RANGE              1
 #define ACPI_ADDRESS_TYPE_BUS_NUMBER_RANGE      2
+
+#define ACPI_ADDRESS_TYPE_PCC_NUMBER            0xA
 
 /* Resource descriptor types and masks */
 

@@ -1,3 +1,5 @@
+Allow overriding OPT_LDFLAGS in Makefile.config
+
 Index: acpica-unix-20200528/generate/unix/Makefile.config
 ===================================================================
 --- acpica-unix-20200528.orig/generate/unix/Makefile.config

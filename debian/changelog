@@ -1,3 +1,51 @@
+acpica-unix (20250404-1) unstable; urgency=medium
+
+  * Upgrade to 20250404 upstream..
+  * Remove the fixing armv7-str-fixes which has been applied.
+  * debian/control: Bump Standards-Version to 4.7.2.
+  * debian/watch: Bump watch file standard to 4.
+  * added DEB_BUILD_OPTIONS nocheck checking for override_dh_auto_test to
+    debian/rules
+  * Clean up lintian problems where possible.
+
+ -- Ivan Hu <ivan.hu@canonical.com>  Thu, 17 Apr 2025 14:49:38 +0800
+
+acpica-unix (20241212-2) unstable; urgency=medium
+
+  * Update debian/copyright.
+  * Fix some lintian errors and warnings.
+
+ -- Ivan Hu <ivan.hu@canonical.com>  Tue, 07 Jan 2025 11:09:35 +0800
+
+acpica-unix (20241212-1) unstable; urgency=medium
+
+  * Upgrade to 20241212 upstream.
+  * Remove the fixing acpixtract-regression which has been applied.
+  * Remove two fixing CVE patches which have been applied.
+
+ -- Ivan Hu <ivan.hu@ubuntu.com>  Mon, 06 Jan 2025 11:55:41 +0800
+
+acpica-unix (20240927-1) unstable; urgency=medium
+
+  * Upgrade to 20240927 upstream.
+  * Add the patch for fixing acpixtract-regression on ssdt. #978
+
+ -- Ivan Hu <ivan.hu@canonical.com>  Wed, 06 Nov 2024 14:43:26 +0800
+
+acpica-unix (20240827-2) unstable; urgency=medium
+
+  * Update the copyright for DEP-5 format.
+
+ -- Ivan Hu <ivan.hu@canonical.com>  Fri, 27 Sep 2024 10:33:50 +0800
+
+acpica-unix (20240827-1) unstable; urgency=medium
+
+  * Upgrade to 20240827 upstream.
+  * Refresh patches.
+  * Remove the fixing hpat patches, which has been fixed by upstream.
+
+ -- Ivan Hu <ivan.hu@canonical.com>  Wed, 18 Sep 2024 18:00:58 +0800
+
 acpica-unix (20240322-2) unstable; urgency=medium
 
   * add missing loong64 build support. (Closes: #1058460)

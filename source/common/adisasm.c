@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2023, Intel Corp.
+ * Copyright (C) 2000 - 2025, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -350,7 +350,7 @@ AdDisassembleOneTable (
      */
     if (AcpiGbl_CaptureComments)
     {
-        strncpy (Table->Signature, AcpiGbl_TableSig, ACPI_NAMESEG_SIZE);
+        memcpy (Table->Signature, AcpiGbl_TableSig, ACPI_NAMESEG_SIZE);
     }
 #endif
 

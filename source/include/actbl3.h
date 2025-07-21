@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2023, Intel Corp.
+ * Copyright (C) 2000 - 2025, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -135,10 +135,10 @@ typedef struct acpi_table_slit
 /*******************************************************************************
  *
  * SPCR - Serial Port Console Redirection table
- *        Version 2
+ *        Version 4
  *
  * Conforms to "Serial Port Console Redirection Table",
- * Version 1.03, August 10, 2015
+ * Version 1.10, Jan 5, 2023
  *
  ******************************************************************************/
 
@@ -156,7 +156,7 @@ typedef struct acpi_table_spcr
     UINT8                   StopBits;
     UINT8                   FlowControl;
     UINT8                   TerminalType;
-    UINT8                   Reserved1;
+    UINT8                   Language;
     UINT16                  PciDeviceId;
     UINT16                  PciVendorId;
     UINT8                   PciBus;
@@ -164,7 +164,11 @@ typedef struct acpi_table_spcr
     UINT8                   PciFunction;
     UINT32                  PciFlags;
     UINT8                   PciSegment;
-    UINT32                  Reserved2;
+    UINT32                  UartClkFreq;
+    UINT32                  PreciseBaudrate;
+    UINT16                  NameSpaceStringLength;
+    UINT16                  NameSpaceStringOffset;
+    char                    NameSpaceString[];
 
 } ACPI_TABLE_SPCR;
 
@@ -330,7 +334,7 @@ typedef struct acpi_srat_gicc_affinity
 #define ACPI_SRAT_GICC_ENABLED     (1)         /* 00: Use affinity structure */
 
 
-/* 4: GCC ITS Affinity (ACPI 6.2) */
+/* 4: GIC ITS Affinity (ACPI 6.2) */
 
 typedef struct acpi_srat_gic_its_affinity
 {
@@ -543,6 +547,8 @@ typedef struct acpi_table_tpm2
 #define ACPI_TPM2_RESERVED10                        10
 #define ACPI_TPM2_COMMAND_BUFFER_WITH_ARM_SMC       11  /* V1.2 Rev 8 */
 #define ACPI_TPM2_RESERVED                          12
+#define ACPI_TPM2_COMMAND_BUFFER_WITH_PLUTON        13
+#define ACPI_TPM2_CRB_WITH_ARM_FFA                  15
 
 
 /* Optional trailer appears after any StartMethod subtables */

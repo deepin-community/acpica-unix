@@ -5,7 +5,7 @@
  *****************************************************************************/
 
 /*
- * Copyright (C) 2000 - 2023, Intel Corp.
+ * Copyright (C) 2000 - 2025, Intel Corp.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -156,7 +156,7 @@ ApWriteToBinaryFile (
     ACPI_TABLE_HEADER       *Table,
     UINT32                  Instance)
 {
-    char                    Filename[ACPI_NAMESEG_SIZE + 16];
+    char                    Filename[ACPI_NAMESEG_SIZE + 16] ACPI_NONSTRING;
     char                    InstanceStr [16];
     ACPI_FILE               File;
     ACPI_SIZE               Actual;

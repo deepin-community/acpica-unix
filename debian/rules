@@ -15,7 +15,7 @@ CFLAGS = $(shell dpkg-buildflags --get CFLAGS) $(shell dpkg-buildflags --get CPP
 
 DESTDIR ?= debian/acpica-tools
 
-VERSION = 20230628
+VERSION = 20250404
 
 DEB_HOST_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
@@ -66,7 +66,11 @@ override_dh_install:
 	install -m 0644 debian/acpixtract.1 $(DESTDIR)/usr/share/man/man1
 
 override_dh_auto_test:
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 	$(MAKE) -C $(CURDIR) check CC=$(CC) OPT_CFLAGS="$(CFLAGS)"
+else
+	@echo "*** Tests skipped (DEB_BUILD_OPTIONS=nocheck) ***"
+endif
 
 override_dh_auto_build:
 	dh_auto_build -- OPT_CFLAGS="$(CFLAGS)" CC=$(CC)
